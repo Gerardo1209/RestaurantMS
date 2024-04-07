@@ -1,0 +1,39 @@
+<app-header></app-header>
+<div class="container">
+    <div class="p-3 mb-3">
+        <h1 class="text-center bg-dark-subtle p-3">Menu</h1>
+    </div>
+    <div class="container" style="padding-left: 10vw; padding-right: 6vw;">
+        <div class="row">
+            <div class="col-md-6" *ngFor="let item of dishes">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="m-0 w-100 text-center">
+                            <span class="bg-dark-subtle p-3">
+                                {{item.name}}
+                            </span>
+                        </h4>
+                        <div class="bg-dark-subtle p-3 mt-0">
+                            <h5>Ingredientes:</h5>
+                            <ul>
+                                <li *ngFor="let ingredient of item.ingredients">
+                                    {{ingredient}}
+                                </li>
+                            </ul>
+                            <p>Tiempo de preparacion: {{item.time}}</p>
+                            <p>Precio: {{item.cost}}</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <img src="assets/img/logo.png" class="img-fluid" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
