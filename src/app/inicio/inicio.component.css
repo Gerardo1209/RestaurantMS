@@ -1,9 +1,48 @@
 .carrousel-img {
-    height: 400px;
+    height: 350px;
+}
+
+.section {
+    margin: 0 auto;
+    border-radius: 5px;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.titulo {
+    margin: 0 auto;
+    width: 35%;
+    border: 1px solid #f8be00;
+    border-radius: 5px;
+    background-color: #f8be00;
+
+    /* Convertir el div en un trapecio */
+    position: relative;
+    overflow: hidden;
+    /* Ángulo superior izquierdo y ángulo inferior derecho */
+    clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 10% 50%);
+
+}
+
+.titulo-2 {
+    margin: 0 auto;
+    width: 50%;
+    border: 1px solid #f8be00d0;
+    border-radius: 5px;
+    background-color: #f89500e0;
+
+    /* position: relative;
+    overflow: hidden;
+    /* Oculta cualquier contenido que sobresalga del div
+    clip-path: polygon(0 0, 90% 0%, 100% 100%, 10% 100%); */
 }
 
 .card {
+    width: 105%;
     height: 350px;
+    margin: 15px auto;
 }
 
 .card img {
@@ -17,4 +56,30 @@
     justify-content: center;
     text-align: center;
     padding: 10px;
+}
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+}
+
+.container-mv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.mis-vis {
+    margin: 0 auto;
+    width: 70%;
+}
+
+.mision-vision {
+    margin: 10px;
+}
+
+.container-info {
+    display: flex;
+    flex-direction: row;
 }
