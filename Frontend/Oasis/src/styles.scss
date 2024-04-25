@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Lilitia_One';
+    src: url('assets/fonts/LilitaOne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Tilt_Neon';
+    src: url('assets/fonts/TiltNeon-Regular-VariableFont_XROT\,YROT.ttf') format('truetype');
+}
+
+.titulo {
+    font-family: 'Lilitia_One', sans-serif;
+}
+
+.texto {
+    font-size: 20px;
+    font-family: 'Tilt_Neon', sans-serif;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    background: url('assets/img/Background.jpg')no-repeat center;
+    background-size: cover;
+}
+
+.outer-container {
+    min-height: fit-content;
+    min-height: 100%;
+    display: block;
+    position: relative;
+}

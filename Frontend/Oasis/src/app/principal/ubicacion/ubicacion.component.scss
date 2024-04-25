@@ -1,0 +1,38 @@
+#titulo-enc,
+#titulo-ubi {
+    color: white;
+}
+
+#mapa {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#mapa iframe {
+    border-radius: 15px;
+}
+
+.container-detalles p {
+    font-size: 30px;
+}
+
+
+.iconos {
+    width: 80px;
+    height: 80px;
+}
+
+#img-correo {
+    margin-left: 70px;
+}
+
+.correo,
+.telefono,
+.ubicacion {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: 15px auto;
+    text-align: center;
+    justify-content: space-evenly;
+}
