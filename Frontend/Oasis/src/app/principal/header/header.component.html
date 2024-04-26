@@ -23,13 +23,13 @@
         </div>
 
         <div class="section-2">
-            <a class="link texto ms-1" [class.selected]="isSelected('Inicio')" href=""
+            <a class="link texto ms-1" [class.selected]="isSelected('Inicio')" routerLink="inicio"
                 (click)="selectButton('Inicio')"><div>Inicio</div></a>
-            <a class="link texto ms-1" [class.selected]="isSelected('Menú')" href="menu"
+            <a class="link texto ms-1" [class.selected]="isSelected('Menú')" routerLink="menu"
                 (click)="selectButton('Menú')"><div>Menú</div></a>
-            <a class="link texto ms-1" [class.selected]="isSelected('Ubicación')" href="ubicacion"
+            <a class="link texto ms-1" [class.selected]="isSelected('Ubicación')" routerLink="ubicacion"
                 (click)="selectButton('Ubicación')"><div>Ubicación</div></a>
-            <a class="link texto ms-1 me-1" [class.selected]="isSelected('FAQ')" href="FAQ" (click)="selectButton('FAQ')"><div>FAQ</div></a>
+            <a class="link texto ms-1 me-1" [class.selected]="isSelected('FAQ')" routerLink="FAQ" (click)="selectButton('FAQ')"><div>FAQ</div></a>
         </div>
 
     </div>

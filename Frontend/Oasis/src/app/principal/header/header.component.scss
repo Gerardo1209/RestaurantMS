@@ -29,6 +29,7 @@
 }
 
 .selected {
+    transition: 400ms all;
     color: white;
     border-radius: 25px;
     background-color: #FF9000;

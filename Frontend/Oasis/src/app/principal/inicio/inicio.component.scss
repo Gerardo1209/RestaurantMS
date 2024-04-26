@@ -139,10 +139,14 @@
     background-color: #e0441dc0;
     box-shadow: 0 2px 5px rgba(136, 29, 29, 0.1);
     overflow: hidden;
-
+    transition: 600ms;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.producto:hover {
+  transform:scale(1.08);
 }
 
 .card-overlay {

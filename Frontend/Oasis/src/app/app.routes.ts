@@ -6,10 +6,6 @@ import { UbicacionComponent } from './principal/ubicacion/ubicacion.component';
 
 export const routes: Routes = [
     {
-        path: '',
-        component: InicioComponent,
-    },
-    {
         path: 'inicio',
         component: InicioComponent,
     },
@@ -24,5 +20,14 @@ export const routes: Routes = [
     {
         path: 'ubicacion',
         component: UbicacionComponent,
+    },
+    {
+      path: '',
+      redirectTo: 'inicio',
+      pathMatch: 'full'
+    },
+    {
+      path: '**',
+      redirectTo: 'inicio'
     }
 ];
