@@ -7,9 +7,6 @@
     height: 70px;
 }
 
-#inicio {
-    border: 3px solid red;
-}
 
 .section-2 {
     display: flex;
@@ -39,11 +36,18 @@
 }
 
 .btn-reservar {
+    font-family: 'Tilt_Neon', sans-serif;
     margin-right: 15px;
     width: 100px;
     color: white;
     background-color: #F03153;
     border-radius: 25px;
+}
+
+.btn-reservar:hover {
+    color: #F03153;
+    background-color: white;
+    border: 3px solid #F03153;
 }
 
 .search {

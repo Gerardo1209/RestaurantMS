@@ -1,4 +1,19 @@
 .container-footer {
-    height: 80px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-redes {
+    height: 70px;
     background-color: #EA6A12;
+}
+
+.container-empresa {
+    height: 40px;
+    background-color: white;
+}
+
+.texto-empresa {
+    font-size: 15px;
 }

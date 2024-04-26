@@ -13,14 +13,17 @@
 .carousel-inner {
     flex: 1;
     width: 100%;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 10px;
 }
 
-.banner {
-    width: 100%;
-    height: 250px;
+.img-center {
+    height: 380px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 
 .promociones {
     display: flex;
@@ -32,41 +35,15 @@
     margin-left: 5px;
     width: 35%;
     background-color: rgba(255, 255, 255, 0.623);
-    height: 250px;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    height: 380px;
+    border-radius: 10px;
 }
 
 #img-promocion {
     position: absolute;
     top: -60px;
-    width: 150px;
-    height: 150px;
-}
-
-.container-productos {
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.carrusel-2 {
-    margin: 0 auto;
-    width: 80%;
-}
-
-.container-productos h1 {
-    color: #FFC153;
-    font-size: 80px;
-}
-
-
-.card {
-    width: 100%;
-    height: auto;
+    width: 250px;
+    height: 250px;
 }
 
 .container-nosotros {
@@ -74,16 +51,36 @@
     flex-direction: row;
     width: 70%;
     margin: 0 auto;
+    margin-top: 60px;
 }
 
-#img-chamba {
-    width: 500px;
-    height: 400px;
+.container-reservar {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.btn-reservar {
+    background-color: white;
+    color: rgb(179, 52, 52);
+    border: 3px solid rgb(179, 52, 52);
+    border-radius: 25px;
+    font-family: 'Tilt_Neon', sans-serif;
+    font-size: 22px;
+}
+
+.btn-reservar:hover {
+    color: white;
+    background-color: rgb(179, 52, 52);
 }
 
 .container-chambainfo {
     display: flex;
     flex-direction: column;
+    width: 70%;
 }
 
 .titulo-chamba {
@@ -113,9 +110,68 @@
 .texto-info {
     font-size: 23px;
     padding: 20px;
-    color: white;
+    color: black;
 }
 
 .titulo-info {
-    color: rgb(214, 36, 36);
+    color: rgb(173, 56, 56);
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.container-novedades {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.titulo-nov {
+    margin-block-end: 40px;
+    color: #FFC153;
+    font-size: 50px;
+}
+
+.producto {
+    position: relative;
+    background-color: #e0441dc0;
+    box-shadow: 0 2px 5px rgba(136, 29, 29, 0.1);
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-overlay {
+    position: absolute;
+    top: -100px;
+    right: -55px;
+    width: 70%;
+    height: 60%;
+    background: linear-gradient(to bottom, #EA6A12, #f55959);
+    transform: rotate(5deg);
+    z-index: 0;
+    border-radius: 15px;
+}
+
+.card-title {
+    color: white;
+    font-size: 25px;
+}
+
+.card-text {
+    color: white;
+    font-size: 15px;
+}
+
+.card-img {
+    display: block;
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    position: relative;
+    z-index: 1;
 }

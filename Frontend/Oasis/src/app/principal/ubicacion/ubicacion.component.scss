@@ -1,30 +1,47 @@
-#titulo-enc,
+.titulo-ubicacion {
+    margin-top: 30px;
+}
+
 #titulo-ubi {
     color: white;
+    margin-top: 30px;
+}
+
+#titulo-enc {
+    margin-block-end: 25px;
+    color: rgba(255, 255, 255, 0.918);
+    margin-top: 150px;
 }
 
 #mapa {
     width: 80%;
     margin: 0 auto;
+    margin-top: 30px;
 }
 
 #mapa iframe {
     border-radius: 15px;
 }
 
+.container-detalles {
+    width: 60%;
+    background-color: #ea681275;
+    margin: 0 auto;
+    border: 3px solid #ad0404be;
+    margin-block-end: 30px;
+}
+
 .container-detalles p {
-    font-size: 30px;
+    color: white;
+    font-size: 28px;
 }
 
 
 .iconos {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
 }
 
-#img-correo {
-    margin-left: 70px;
-}
 
 .correo,
 .telefono,
@@ -34,5 +51,5 @@
     width: 50%;
     margin: 15px auto;
     text-align: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
