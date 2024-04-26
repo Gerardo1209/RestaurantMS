@@ -17,7 +17,7 @@
 }
 
 .img-center {
-    height: 380px;
+    height: 340px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -35,15 +35,15 @@
     margin-left: 5px;
     width: 35%;
     background-color: rgba(255, 255, 255, 0.623);
-    height: 380px;
+    height: 340px;
     border-radius: 10px;
 }
 
 #img-promocion {
     position: absolute;
-    top: -60px;
-    width: 250px;
-    height: 250px;
+    top: -65px;
+    width: 220px;
+    height: 220px;
 }
 
 .container-nosotros {
@@ -55,18 +55,20 @@
 }
 
 .container-reservar {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 100px;
+    text-align: center;
+    margin-top: 130px;
+    .btn{
+      padding-left: 80px;
+      padding-right: 80px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
 }
 
 .btn-reservar {
     background-color: white;
-    color: rgb(179, 52, 52);
-    border: 3px solid rgb(179, 52, 52);
+    color: #F03153;
+    border: 3px solid #F03153;
     border-radius: 25px;
     font-family: 'Tilt_Neon', sans-serif;
     font-size: 22px;
@@ -74,13 +76,12 @@
 
 .btn-reservar:hover {
     color: white;
-    background-color: rgb(179, 52, 52);
+    background-color: #F03153;
 }
 
 .container-chambainfo {
     display: flex;
     flex-direction: column;
-    width: 70%;
 }
 
 .titulo-chamba {
@@ -96,12 +97,12 @@
     justify-content: space-between;
 }
 
+
 .container-vision,
 .container-valores,
 .container-mision {
-    margin: 10px;
-    width: 300px;
-    height: 350px;
+    margin-top: 10px;
+    height: 100%;
     background-color: #e96d1baf;
     border: 3px solid #c4692cd3;
     border-radius: 35px;
@@ -174,4 +175,76 @@
     height: auto;
     position: relative;
     z-index: 1;
+}
+
+
+
+@media screen and (min-width: 1200px) {
+  #img-promocion {
+    top: -70px;
+    width: 300px;
+    height: 300px;
+  }
+  .promociones {
+    height: 440px;
+  }
+  .img-center {
+    height: 440px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  #img-promocion {
+    top: -70px;
+    width: 350px;
+    height: 350px;
+  }
+  .promociones {
+    height: 590px;
+  }
+  .img-center {
+    height: 590px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #img-promocion {
+    top: -60px;
+    width: 160px;
+    height: 160px;
+  }
+  .promociones {
+    height: 280px;
+  }
+  .img-center {
+    height: 275px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #img-promocion {
+    top: -60px;
+    width: 160px;
+    height: 160px;
+  }
+  .promociones {
+    height: 240px;
+  }
+  .img-center {
+    height: 210px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  #img-promocion {
+    top: -55px;
+    width: 120px;
+    height: 120px;
+  }
+  .promociones {
+    height: 200px;
+  }
+  .img-center {
+    height: 160px;
+  }
 }

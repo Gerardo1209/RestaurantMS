@@ -1,28 +1,35 @@
 <nav>
     <div class="container-header">
-        <div class="section-1">
-            <img id="logo" src="../../../assets/png/logo.png" alt="">
-            <div class="container-fluid search">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2 search-input" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+        <div class="row align-items-center justify-content-center section-1 inner-row">
+            <div class="col col-3 col-sm-2 col-md-4">
+              <img  id="logo" src="assets/png/logo.png" alt="">
             </div>
-            <div id="inicio">
-                <button type="button" class="btn btn-reservar">Reservar</button>
-                <img id="usuario" src="../../../assets/png/usuario.png" alt="">
+            <div class="col col-9  col-sm-10 pe-4 pe-md-0 col-md-4">
+              <div class="search w-100">
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2 search-input" type="search" placeholder="Buscar"
+                      aria-label="Buscar">
+                  <button class="btn btn-search-per" type="submit"><i class="fa fa-search"></i></button>
+              </form>
+              </div>
+
+            </div>
+            <div class="col col-10 mb-2 mb-md-0 col-md-4 p-0 m-0">
+              <div class="d-flex justify-content-center justify-content-md-end">
+                <button type="button" class="btn btn-reservar me-3">Reservar</button>
+                <button type="button" class="btn btn-reservar me-3">Ingresar</button>
+              </div>
             </div>
         </div>
 
         <div class="section-2">
             <a class="link texto" [class.selected]="isSelected('Inicio')" href=""
-                (click)="selectButton('Inicio')">Inicio</a>
+                (click)="selectButton('Inicio')"><div>Inicio</div></a>
             <a class="link texto" [class.selected]="isSelected('Menú')" href="menu"
-                (click)="selectButton('Menú')">Menú</a>
+                (click)="selectButton('Menú')"><div>Menú</div></a>
             <a class="link texto" [class.selected]="isSelected('Ubicación')" href="ubicacion"
-                (click)="selectButton('Ubicación')">Ubicación</a>
-            <a class="link texto" [class.selected]="isSelected('FAQ')" href="FAQ" (click)="selectButton('FAQ')">FAQ</a>
+                (click)="selectButton('Ubicación')"><div>Ubicación</div></a>
+            <a class="link texto" [class.selected]="isSelected('FAQ')" href="FAQ" (click)="selectButton('FAQ')"><div>FAQ</div></a>
         </div>
 
     </div>

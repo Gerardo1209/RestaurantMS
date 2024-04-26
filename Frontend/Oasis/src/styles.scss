@@ -26,8 +26,11 @@ body {
 }
 
 .outer-container {
-    min-height: fit-content;
-    min-height: 100%;
-    display: block;
-    position: relative;
+  min-height: 90vh;
+  display: block;
+  position: relative;
+}
+
+html {
+  scroll-behavior: smooth;
 }
