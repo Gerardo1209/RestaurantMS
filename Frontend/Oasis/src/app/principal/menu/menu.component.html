@@ -1,0 +1,48 @@
+<div class="animate__animated animate__fadeIn container-fluid">
+  <h1 class="titulo text-center mt-4">Menú</h1>
+  <h2 class="titulo ms-5">Categorías de menú</h2>
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
+      @for (item of itemsTemp; track $index) {
+        <div class="col col-per" >
+          <div class="card card-per smooth-transition" [ngClass]="{'active-card': item.active}">
+            <img src="assets/png/1.png" class="card-img-top" alt="...">
+            <div class="card-body text-center">
+              <h5 class="card-title texto mb-3" style="color: white; font-size: 1.8rem;">{{item.nombre}}</h5>
+              <hr class="br-div smooth-transition" [ngClass]="{'active-br': item.active}">
+              <button (click)="changeActive(item)" class="btn btn-cat mt-3 smooth-transition" [ngClass]="{'active-btn': item.active}" ><i class="fa fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <h2 class="titulo ms-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
+      @for (item of prodTemp; track $index) {
+        <div class="col col-per" >
+
+          <div class="card cad-per-product text-center">
+            <img src="assets/png/1.png" class="img-fluid img-producto">
+            <div class="card-body text-center" [ngClass]="{'active-card': item.active}">
+              <h5 class="card-title texto mb-3" style="font-size: 1.3rem;" [ngStyle]="item.active ? {'color': 'white'} : {'color':'black'}">{{item.nombre}}</h5>
+              <hr class="br-div" [ngClass]="{'active-br': item.active}">
+              <div class="row justify-content-center align-items-center mt-3">
+                <div class="col ">
+                  <p class="texto texto-naranja" [ngStyle]="item.active ? {'color': 'white'} : {'color':'#EA6A12'}">${{item.precio}}</p>
+                </div>
+                <div class="col">
+                  <button class="btn btn-cat smooth-transition" [ngClass]="{'active-btn': item.active}" ><i class="fa fa-plus"></i></button>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

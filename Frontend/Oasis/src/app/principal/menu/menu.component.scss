@@ -1,0 +1,92 @@
+.smooth-transition{
+  transition: 400ms;
+}
+
+.card-per{
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 40px;
+  height: 100%;
+  border: none;
+}
+
+.cad-per-product{
+  z-index: 1;
+  background-color: transparent;
+  border: none;
+  .card-body{
+    padding-top: 80px;
+    margin-top: -100px;
+    background-color: white;
+    border-radius: 40px;
+  }
+  .active-card{
+    background-color: #EA6A12;
+  }
+}
+
+.img-producto{
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 200px;
+  margin: auto;
+}
+
+.texto-naranja{
+  color: #EA6A12;
+  font-weight: bold;
+}
+
+.active-card{
+  background-color: #EA6A12;
+}
+
+.col-per{
+  padding: 2rem;
+}
+
+#categorias{
+  width: 80%;
+}
+
+#cat-sel{
+  font-size: 5rem;
+}
+
+.br-div{
+  width: 50%;
+  color: #BD0D0D;
+  border: 1.5px solid #BD0D0D;
+  margin: auto;
+
+}
+
+.active-br{
+  color: white;
+  border: 1.5px solid white;
+}
+
+.btn-cat{
+  color: white;
+  border-radius: 50%;
+  background-color: #EA6A12;
+  height: 50px;
+  width: 50px;
+}
+
+.btn-cat:hover{
+  transform: scale(1.1);
+}
+
+.btn-cat:active{
+  transform: scale(0.9);
+  background-color: #c25710;
+  border: none;
+  color: white;
+}
+
+.active-btn{
+  color: #EA6A12;
+  background-color: white;
+
+}

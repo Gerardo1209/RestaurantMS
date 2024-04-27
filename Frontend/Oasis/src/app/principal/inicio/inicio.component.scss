@@ -1,3 +1,52 @@
+#chamba-conainer{
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+#pizza-icon{
+  position: relative;
+  font-size: 4rem;
+  z-index: 10;
+  top: -80%;
+  left: 60%;
+}
+
+#yumi-icon{
+  position: relative;
+  font-size: 4rem;
+  z-index: 10;
+  top: -80%;
+}
+
+#message{
+  position: relative;
+  background-color: white;
+  width: fit-content;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 20px;
+  top: -50px;
+}
+
+#green-rect{
+  position:relative;
+  height: 60%;
+  width: 80%;
+  background-color: #C7C730;
+  z-index: 1;
+  top: -101%;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-left-radius: 25%;
+  border-bottom-right-radius: 25%;
+}
+
+#chambeadora{
+  position: relative;
+  z-index: 5;
+}
+
 .carousel {
     width: 100%;
     overflow: hidden;
