@@ -27,9 +27,11 @@
 .img-producto{
   position: relative;
   z-index: 5;
-  width: 100%;
+  width: auto;
   max-width: 200px;
+  max-height: 150px;
   margin: auto;
+  margin-bottom: 15px;
 }
 
 .texto-naranja{
@@ -89,4 +91,25 @@
   color: #EA6A12;
   background-color: white;
 
+}
+
+.modal-content-per{
+  background-color: #ea6812d5;
+  .modal-header{
+    border: none;
+    .modal-title{
+      font-size: 3rem !important;
+      color: white !important;
+    }
+  }
+  .modal-body{
+    .border-per{
+      border-right: 1px solid white;
+    }
+    @media screen and (max-width: 768px) {
+      .border-per{
+        border-right: none;
+      }
+    }
+  }
 }

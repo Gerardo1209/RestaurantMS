@@ -8,3 +8,12 @@ const authManager = require('../Auth/user_permision');
 
 
 // VISUALIZAR PEDIDOS DE MESEROS, COCINEROS Y BARTENDERS
+
+
+
+
+
+
+
+//Hasta el final exportar el router
+module.exports = router;

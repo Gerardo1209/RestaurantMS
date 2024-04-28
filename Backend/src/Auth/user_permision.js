@@ -20,8 +20,24 @@ const revContrasena = async (contrasena, usuario) => {
         const request = await pool.request();
         request.input('usuario',sql.sql.VarChar,usuario)
         const result = await request.query('SELECT contrasena FROM empleados WHERE usuario=@usuario;');
-        console.log(result)
         hashedContasena = result.recordset[0].contrasena;
+        await bcrypt.compare(contrasena, hashedContasena).then((result) => {
+            band=result;
+        });
+    }catch(error){
+        band = false;
+    }
+    return band;
+}
+
+const revContrasenaReservacion = async (contrasena, idReservacion) => {
+    var band = false;
+    try{
+        const pool = await sql.pool;
+        const request = await pool.request();
+        request.input('id',sql.sql.Int,idReservacion)
+        const result = await request.query('SELECT password FROM reservacion WHERE id=@id;');
+        hashedContasena = result.recordset[0].password;
         await bcrypt.compare(contrasena, hashedContasena).then((result) => {
             band=result;
         });
@@ -73,6 +89,7 @@ const revPermisos = async (contrasena, usuario, permisos) => {
 module.exports = {
     genContrasena,
     revContrasena,
+    revContrasenaReservacion,
     revPermisos,
     PUESTOS
 }

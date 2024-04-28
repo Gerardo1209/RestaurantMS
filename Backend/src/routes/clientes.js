@@ -12,3 +12,6 @@ const authManager = require('../Auth/user_permision');
 // ORDEN
 
 
+
+
+//Hasta el final exportar el router

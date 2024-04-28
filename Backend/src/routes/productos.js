@@ -28,6 +28,7 @@ router.post('/categoria/nueva', async (req, res) => {
         let body = req.body;
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('descripcion', db.sql.VarChar, body.descripcion);
+        request.input('imagen',db.sql.VarChar, body.imagen);
         request.input('habilitado',db.sql.Bit, 1);
 
         const result = await request.query('INSERT INTO categoria VALUES(@nombre,@descripcion,@habilitado); SELECT SCOPE_IDENTITY() AS id;');
@@ -52,6 +53,7 @@ router.post('/categoria/cambio', async (req, res) => {
         request.input('id_cat', db.sql.VarChar, body.idCategoria);
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('descripcion', db.sql.VarChar, body.descripcion);
+        request.input('imagen',db.sql.VarChar, body.imagen);
 
         const result = await request.query('UPDATE categoria SET nombre=@nombre, descripcion=@descripcion WHERE id=@id_cat;');
         if(result.rowsAffected[0] === 0) throw new Error("Error al Actualizar la Categoria");
@@ -78,7 +80,7 @@ router.delete('/categoria/baja', async (req, res) => {
         //if(resultP.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Productos Adyascentes");
 
         const result = await request.query('UPDATE subcategoria SET habilitado=0 WHERE id_cat=@id_cat;');
-        if(result.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Subcategorias Adyascentes");
+        //if(result.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Subcategorias Adyascentes");
 
         const resultC = await request.query('UPDATE categoria SET habilitado=0 WHERE id=@id_cat;');
         if(resultC.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Categoria");
@@ -102,10 +104,10 @@ router.put('/categoria/recuperar', async (req, res) => {
         request.input('id_cat', db.sql.VarChar, body.idCategoria);
 
         const resultP = await request.query('UPDATE p SET p.habilitado = 1 FROM producto p INNER JOIN subcategoria s ON p.id_subcat = s.id WHERE s.id_cat = @id_cat;');        
-    //if(resultP.rowsAffected[0] === 0) throw new Error("Error al Habilitar Productos Adyascentes");
+        //if(resultP.rowsAffected[0] === 0) throw new Error("Error al Habilitar Productos Adyascentes");
 
         const result = await request.query('UPDATE subcategoria SET habilitado=1 WHERE id_cat=@id_cat;');
-        if(result.rowsAffected[0] === 0) throw new Error("Error al Habilitar Subcategorias Adyascentes");
+        //if(result.rowsAffected[0] === 0) throw new Error("Error al Habilitar Subcategorias Adyascentes");
 
         const resultC = await request.query('UPDATE categoria SET habilitado=1 WHERE id=@id_cat;');
         if(resultC.rowsAffected[0] === 0) throw new Error("Error al Habilitar Categoria");
@@ -330,7 +332,7 @@ router.get('/productos', async (req, res) => {
     try {
         const pool = await db.pool;
         const request = await pool.request();
-        const result = await request.query('SELECT * FROM producto;');
+        const result = await request.query('SELECT p.*, s.id_cat FROM producto p, subcategoria s WHERE p.id_subcat=s.id;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -343,7 +345,7 @@ router.get('/producto/:idProducto', async (req, res) => {
         const request = await pool.request();
         request.input('id', db.sql.Int, req.params.idProducto);
         const resultIng = await request.query('SELECT i.*,p.cantidad FROM ingredientes i, prod_ingr p WHERE p.id_prod = @id AND p.id_ingre=i.id;');
-        const result = await request.query('SELECT * FROM producto WHERE id=@id;');
+        const result = await request.query('SELECT p.*, s.id_cat FROM producto p, subcategoria s WHERE p.id=@id AND p.id_subcat=s.id;');
         var producto = result.recordset[0];
         producto.ingredientes = resultIng.recordset;
         res.json({success: true, message: producto});
@@ -366,6 +368,7 @@ router.post('/producto/nuevo', async (req, res) => {
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         request.input('id_subcat',db.sql.Int,body.id_subcat);
         request.input('imagen',db.sql.VarChar,body.imagen);
+        request.input('tiempo',db.sql.VarChar,body.tiempo);
         request.input('habilitado',db.sql.Bit,1);
         if(!body.ingredientes) throw new Error("No se enviaron los ingredientes del producto");
         const result = await request.query('INSERT INTO producto VALUES(@nombre,@descripcion,@precio,@id_subcat,@imagen,@habilitado); SELECT SCOPE_IDENTITY() AS id;');
@@ -402,6 +405,7 @@ router.post('/producto/cambio', async (req, res) => {
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         request.input('id_subcat',db.sql.VarChar,body.id_subcat);
         request.input('imagen',db.sql.VarChar,body.imagen);
+        request.input('tiempo',db.sql.VarChar,body.tiempo);
         if(!body.ingredientes) throw new Error("No se enviaron los ingredientes del producto");
         const result = await request.query('UPDATE producto SET nombre=@nombre,descripcion=@descripcion,precio=@precio,id_subcat=@id_subcat,imagen=@imagen WHERE id=@id;');
         if(result.rowsAffected[0] == 0) throw new Error("Error al editar el producto");

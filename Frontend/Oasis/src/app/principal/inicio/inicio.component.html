@@ -29,7 +29,7 @@
         </div>
         <div class="promociones">
             <img id="img-promocion" src="assets/png/2.png" alt="">
-            <h1 style="margin-top: 80px;" class="titulo">50% de descuento!</h1>
+            <h1 style="margin-top: 80px; color: black;" class="titulo">50% de descuento!</h1>
             <p class="texto">Precio completo</p>
         </div>
 
@@ -39,13 +39,13 @@
     <div class="container-novedades">
         <h1 class="text-center titulo titulo-nov">Novedades</h1>
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5">
-            <div class="col" *ngFor="let card of cards">
+            <div class="col" *ngFor="let producto of productos">
                 <div class="card h-100 producto">
-                    <img [src]="card.imageUrl" class="card-img-top card-img img-fluid" alt="...">
+                    <img [src]="producto.imagen" class="card-img-top card-img img-fluid">
                     <div class="card-overlay"></div>
                     <div class="card-body">
-                        <h5 class="card-title text-center titulo">{{ card.title }}</h5>
-                        <p class="card-text text-center texto">{{ card.text }}</p>
+                        <h5 class="card-title text-center titulo">{{ producto.Nombre }}</h5>
+                        <p class="card-text text-center texto">{{ producto.Descripcion }}</p>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
 
     <div class="row row-cols-1 row-cols-md-2 container-nosotros">
         <div class="col">
-          <img class="img-fluid" id="chambeadora" src="assets/img/chambeadora.png" alt="">
+          <img class="img-fluid" id="chambeadora" src="assets/img/chambeadora_1.png" alt="">
         </div>
         <div class="col">
           <div class="container-chambainfo">

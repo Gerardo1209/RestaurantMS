@@ -3,14 +3,14 @@
   <h2 class="titulo ms-5">Categorías de menú</h2>
   <div class="d-flex justify-content-center align-items-center mb-4">
     <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
-      @for (item of itemsTemp; track $index) {
+      @for (categoria of categorias; track $index) {
         <div class="col col-per" >
-          <div class="card card-per smooth-transition" [ngClass]="{'active-card': item.active}">
-            <img src="assets/png/1.png" class="card-img-top" alt="...">
+          <div class="card card-per smooth-transition" [ngClass]="{'active-card': categoria.active}">
+            <img [src]="categoria.imagen" class="card-img-top">
             <div class="card-body text-center">
-              <h5 class="card-title texto mb-3" style="color: white; font-size: 1.8rem;">{{item.nombre}}</h5>
-              <hr class="br-div smooth-transition" [ngClass]="{'active-br': item.active}">
-              <button (click)="changeActive(item)" class="btn btn-cat mt-3 smooth-transition" [ngClass]="{'active-btn': item.active}" ><i class="fa fa-chevron-right"></i></button>
+              <h5 class="card-title texto mb-3" style="color: white; font-size: 1.8rem;">{{categoria.nombre}}</h5>
+              <hr class="br-div smooth-transition" [ngClass]="{'active-br': categoria.active}">
+              <button (click)="changeActive(categoria)" class="btn btn-cat mt-3 smooth-transition" [ngClass]="{'active-btn': categoria.active}" ><i class="fa fa-chevron-right"></i></button>
             </div>
           </div>
         </div>
@@ -19,21 +19,21 @@
   </div>
   <h2 class="titulo ms-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
   <div class="d-flex justify-content-center align-items-center mb-4">
-    <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
-      @for (item of prodTemp; track $index) {
+    <div *ngIf="productosMostrar.length > 0 else sinProductos" class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
+      @for (producto of productosMostrar; track $index) {
         <div class="col col-per" >
 
-          <div class="card cad-per-product text-center">
-            <img src="assets/png/1.png" class="img-fluid img-producto">
-            <div class="card-body text-center" [ngClass]="{'active-card': item.active}">
-              <h5 class="card-title texto mb-3" style="font-size: 1.3rem;" [ngStyle]="item.active ? {'color': 'white'} : {'color':'black'}">{{item.nombre}}</h5>
-              <hr class="br-div" [ngClass]="{'active-br': item.active}">
+          <div class="card animate__animated animate__fadeIn cad-per-product text-center">
+            <img [src]="producto.imagen" class="img-producto">
+            <div class="card-body text-center smooth-transition" [ngClass]="{'active-card': producto.active}">
+              <h5 class="card-title texto mb-3 smooth-transition" style="font-size: 1.3rem;" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'black'}">{{producto.Nombre}}</h5>
+              <hr class="br-div" [ngClass]="{'active-br': producto.active}">
               <div class="row justify-content-center align-items-center mt-3">
                 <div class="col ">
-                  <p class="texto texto-naranja" [ngStyle]="item.active ? {'color': 'white'} : {'color':'#EA6A12'}">${{item.precio}}</p>
+                  <p class="texto texto-naranja smooth-transition" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'#EA6A12'}">{{producto.precio|currency}}</p>
                 </div>
                 <div class="col">
-                  <button class="btn btn-cat smooth-transition" [ngClass]="{'active-btn': item.active}" ><i class="fa fa-plus"></i></button>
+                  <button class="btn btn-cat smooth-transition" data-bs-toggle="modal" data-bs-target="#productoModal" (click)="showProducto(producto)" [ngClass]="{'active-btn': producto.active}" ><i class="fa fa-plus"></i></button>
                 </div>
 
               </div>
@@ -43,6 +43,52 @@
         </div>
       }
     </div>
+    <ng-template #sinProductos>
+      <h1 class="titulo mt-5">Sin productos en la categoría</h1>
+    </ng-template>
   </div>
 
+</div>
+
+<!--Modal de producto-->
+<div class="modal modal-xl fade" id="productoModal" tabindex="-1" aria-labelledby="Modal producto" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modal-content-per">
+      <div class="modal-header">
+        <h1 class="texto modal-title fs-5 ms-4 mt-1" id="exampleModalLabel">{{detailProducto?.Nombre}}</h1>
+        <button type="button" style="color: white !important;" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mx-3">
+          <div class="col col-12 col-md-8 border-per">
+            <p class="texto" style="color: white;">
+              {{detailProducto?.Descripcion}}
+            </p>
+            <div class="text-center w-100">
+              <img [src]="detailProducto?.imagen" class="img-fluid">
+            </div>
+
+          </div>
+          <div class="col col-12 text-center col-md-4">
+            <h4 class="titulo" style="color: white; font-weight: bold;">Ingredientes</h4>
+            <ul>
+              @for (ingrediente of detailProducto?.ingredientes; track $index) {
+                <li class="texto" style="color: white;">{{ ingrediente.nombre}} -  {{ingrediente.cantidad }}</li>
+              }
+            </ul>
+
+          </div>
+        </div>
+        <div class="row mx-3 ">
+          <div class="col">
+            <h4 class="titulo" style="color: white;">Tiempo de preparación</h4>
+            <p class="texto" style="color: white;">{{detailProducto?.tiempo}}</p>
+          </div>
+          <div class="col ">
+            <h2 class="titulo" style="text-align: right;">{{detailProducto?.precio|currency}}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
