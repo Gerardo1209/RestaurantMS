@@ -1,9 +1,9 @@
 const sql = require('mssql');
 const config = {
     server: 'localhost',
-    database: 'Restaurante_Final_1',
+    database: 'Restaurante Final',
     user: 'sa', // Nombre de usuario
-    password: '12345', // Contraseña
+    password: 'Test_12345', // Contraseña
     options: {
         encrypt: false, // Dependiendo de tu configuración de SQL Server, puede que necesites cambiar este valor
         trustServerCertificate: false // Dependiendo de tu configuración de SQL Server, puede que necesites cambiar este valor
