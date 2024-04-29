@@ -18,6 +18,29 @@ router.get('/categorias', async (req, res) => {
     }
 });
 
+router.get('/categoria/:idCategoria', async (req, res) => {
+  try {
+      const pool = await db.pool;
+      const request = await pool.request();
+      request.input('id',db.sql.Int,req.params.idCategoria)
+      const result = await request.query('SELECT * FROM categoria WHERE id=@id');
+      var resultCat = result.recordset[0];
+      const resultSub = await request.query('SELECT * FROM subcategoria WHERE id_cat=@id');
+      var subcategorias = resultSub.recordset;
+      for (let i = 0; i < subcategorias.length; i++) {
+        const subcat = subcategorias[i];
+        const requestInner = await pool.request();
+        requestInner.input('idSubcat', db.sql.Int, subcat.id);
+        const resultProd = await requestInner.query('SELECT p.* FROM producto p WHERE p.id_subcat=@idSubcat;');
+        subcategorias[i].productos = resultProd.recordset;
+      }
+      resultCat.subcategorias = subcategorias;
+      res.json({success: true, message: resultCat});
+  } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 router.post('/categoria/nueva', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
@@ -31,7 +54,7 @@ router.post('/categoria/nueva', async (req, res) => {
         request.input('imagen',db.sql.VarChar, body.imagen);
         request.input('habilitado',db.sql.Bit, 1);
 
-        const result = await request.query('INSERT INTO categoria VALUES(@nombre,@descripcion,@habilitado); SELECT SCOPE_IDENTITY() AS id;');
+        const result = await request.query('INSERT INTO categoria VALUES(@nombre,@descripcion,@habilitado,@imagen); SELECT SCOPE_IDENTITY() AS id;');
         if(result.recordset[0].id == 0) throw new Error("Error al insertar la categoria");
     
         await transaction.commit();
@@ -136,6 +159,21 @@ router.get('/subcategorias', async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
+});
+
+router.get('/subcategoria/:idSubCategoria', async (req, res) => {
+  try {
+      const pool = await db.pool;
+      const request = await pool.request();
+      request.input('id',db.sql.Int,req.params.idSubCategoria)
+      const resultSub = await request.query('SELECT * FROM subcategoria WHERE id=@id');
+      var subcategoria = resultSub.recordset[0];
+      const resultProd = await request.query('SELECT p.* FROM producto p WHERE p.id_subcat=@id;');
+      subcategoria.productos = resultProd.recordset;
+      res.json({success: true, message: subcategoria});
+  } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 router.post('/subcategoria/nueva', async (req, res) => {

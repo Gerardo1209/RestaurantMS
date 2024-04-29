@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductosService } from '../../servicios/productos.service';
-import { Categoria, Producto } from '../../servicios/productos.interface';
+import { Categoria, Producto, Subcategoria } from '../../servicios/productos.interface';
 import { AlertasService } from '../../servicios/alertas.service';
 
 @Component({
@@ -14,6 +14,9 @@ import { AlertasService } from '../../servicios/alertas.service';
 export class MenuComponent implements OnInit{
 
   categorias:Categoria[] = [];
+  showCategorias:Categoria[] = [];
+  activeCategoria:Categoria|undefined;
+  activeSubcategorias:Subcategoria[] = [];
   productosMap:{[key:number]:Producto[]} = {};
   productosMostrar:Producto[] = [];
   detailProducto:Producto|undefined;
@@ -23,7 +26,6 @@ export class MenuComponent implements OnInit{
   ){}
 
   async ngOnInit() {
-    await this.getProductos();
     await this.getCategorias();
   }
 
@@ -38,22 +40,6 @@ export class MenuComponent implements OnInit{
     })
   }
 
-  async getProductos(){
-    await this.productosService.getProductos().forEach((res) => {
-      if(res.success && typeof res.message == 'object'){
-        res.message.forEach(producto => {
-          const categoria = producto.id_cat || 0;
-          if(!this.productosMap[categoria]){
-            this.productosMap[categoria] = [];
-          }
-          this.productosMap[categoria].push(producto)
-        })
-      }else{
-        if(typeof res.message == 'string') this.alertasService.error(res.message)
-      }
-    })
-  }
-
   prodTemp = [
     {nombre: "Alas", active: false, precio: 50},
     {nombre: "Haburguesa", active: true, precio: 50},
@@ -62,16 +48,22 @@ export class MenuComponent implements OnInit{
     {nombre: "Sandwich", active: false, precio: 50}
   ]
 
-  changeActive(item:Categoria){
+  async changeActive(item:Categoria){
     var active = this.categorias.find((a)=>{return a.active == true});
     if(active)active.active = false
     var find = this.categorias.find((a)=>{return a.nombre == item.nombre});
     if(find){
       find.active = true;
-      this.productosMostrar = this.productosMap[find.id] || [];
-      console.log(this.productosMostrar);
+      //Recupera toda la información de la categoria
+      await this.productosService.getCategoria(item.id).forEach((res) => {
+        if(res.success && typeof res.message == 'object'){
+          this.activeCategoria = res.message;
+        }else{
+          if(typeof res.message == 'string') this.alertasService.error(res.message)
+        }
+      })
+      this.activeSubcategorias = this.activeCategoria?.subcategorias || [];
     }
-
   }
 
   getActiveItem():string{
@@ -83,8 +75,8 @@ export class MenuComponent implements OnInit{
     }
   }
 
-  showProducto(producto:Producto){
-    var active = this.productosMostrar.find((a) => {return a.active == true});
+  showProducto(producto:Producto, subcat:Subcategoria){
+    var active = subcat.productos?.find((a) => {return a.active == true});
     if(active) active.active = false;
     producto.active = true;
     this.productosService.getProducto(producto.id).forEach((res) => {
@@ -95,6 +87,13 @@ export class MenuComponent implements OnInit{
         if(typeof res.message == 'string') this.alertasService.error(res.message)
       }
     })
+  }
+
+  scrollToCat(id:string){
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
 }

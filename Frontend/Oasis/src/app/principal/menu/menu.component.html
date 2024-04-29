@@ -1,12 +1,15 @@
 <div class="animate__animated animate__fadeIn container-fluid">
   <h1 class="titulo text-center mt-4">Menú</h1>
-  <h2 class="titulo ms-5">Categorías de menú</h2>
+  <h2 class="titulo text-center text-md-start ms-md-5">Categorías de menú</h2>
   <div class="d-flex justify-content-center align-items-center mb-4">
-    <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
-      @for (categoria of categorias; track $index) {
-        <div class="col col-per" >
+    <div class="d-flex flex-nowrap flex-row overflow-x-auto justify-content-start" id="categorias" >
+      @for (categoria of categorias; track categoria.id; let idx = $index) {
+        <div class="col col-7 col-sm-5 col-lg-3 col-xxl-2 col-per-cat" [ngClass]="{'ms-3': idx != 0, 'me-3': idx!=(categorias.length-1)}" >
           <div class="card card-per smooth-transition" [ngClass]="{'active-card': categoria.active}">
-            <img [src]="categoria.imagen" class="card-img-top">
+            <div class="img-container">
+              <img [src]="categoria.imagen" class="card-img-top img-aspect">
+            </div>
+
             <div class="card-body text-center">
               <h5 class="card-title texto mb-3" style="color: white; font-size: 1.8rem;">{{categoria.nombre}}</h5>
               <hr class="br-div smooth-transition" [ngClass]="{'active-br': categoria.active}">
@@ -17,37 +20,61 @@
       }
     </div>
   </div>
-  <h2 class="titulo ms-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
-  <div class="d-flex justify-content-center align-items-center mb-4">
-    <div *ngIf="productosMostrar.length > 0 else sinProductos" class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" id="categorias" >
-      @for (producto of productosMostrar; track $index) {
-        <div class="col col-per" >
 
-          <div class="card animate__animated animate__fadeIn cad-per-product text-center">
-            <img [src]="producto.imagen" class="img-producto">
-            <div class="card-body text-center smooth-transition" [ngClass]="{'active-card': producto.active}">
-              <h5 class="card-title texto mb-3 smooth-transition" style="font-size: 1.3rem;" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'black'}">{{producto.Nombre}}</h5>
-              <hr class="br-div" [ngClass]="{'active-br': producto.active}">
-              <div class="row justify-content-center align-items-center mt-3">
-                <div class="col ">
-                  <p class="texto texto-naranja smooth-transition" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'#EA6A12'}">{{producto.precio|currency}}</p>
+  @if(activeSubcategorias.length > 0){
+    <div class="row">
+      <h2 class="titulo text-center text-md-start ps-md-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
+      <div class="col order-1 order-lg-0 col-12 col-lg-9 col-xxl-10">
+        @for(subcat of activeSubcategorias; track $index){
+          <h2 class="titulo text-center" [id]="'cat'+subcat.id">{{subcat.nombre}}</h2>
+          <div class="d-flex justify-content-center align-items-center mb-4">
+            <div *ngIf="subcat.productos && subcat.productos.length > 0 else sinProductos" class="row row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1" id="subcategorias" >
+              @for (producto of subcat.productos; track $index) {
+                <div class="col col-per" >
+                  <div class="card animate__animated animate__fadeIn cad-per-product text-center">
+                    <img [src]="producto.imagen" class="img-producto ">
+                    <div class="card-body text-center smooth-transition" [ngClass]="{'active-card': producto.active}">
+                      <h5 class="card-title texto mb-3 smooth-transition" style="font-size: 1.3rem;" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'black'}">{{producto.Nombre}}</h5>
+                      <hr class="br-div" [ngClass]="{'active-br': producto.active}">
+                      <div class="row justify-content-center align-items-center mt-3">
+                        <div class="col ">
+                          <p class="texto texto-naranja smooth-transition" [ngStyle]="producto.active ? {'color': 'white'} : {'color':'#EA6A12'}">{{producto.precio|currency}}</p>
+                        </div>
+                        <div class="col">
+                          <button class="btn btn-cat smooth-transition" data-bs-toggle="modal" data-bs-target="#productoModal" (click)="showProducto(producto, subcat)" [ngClass]="{'active-btn': producto.active}" ><i class="fa fa-plus"></i></button>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
-                <div class="col">
-                  <button class="btn btn-cat smooth-transition" data-bs-toggle="modal" data-bs-target="#productoModal" (click)="showProducto(producto)" [ngClass]="{'active-btn': producto.active}" ><i class="fa fa-plus"></i></button>
-                </div>
-
-              </div>
-
+              }
             </div>
+            <ng-template #sinProductos>
+              <h1 class="titulo text-center mt-5">Sin productos en la subcategoría</h1>
+            </ng-template>
+          </div>
+       }
+      </div>
+      <div class="col order-0 order-lg-1 col-12 col-lg-3 col-xxl-2 mb-4 mb-lg-0">
+        <div class="sticky-top text-center container-subcats">
+          <h2 class="titulo text-center smooth-transition mb-4">Subcategorías</h2>
+          <div class="row mt-4">
+            @for(subcat of activeSubcategorias; track $index){
+              <div class="col-12">
+                <button (click)="scrollToCat('cat'+subcat.id)" class="btn btn-subcat mb-3"> <h2 class="texto"> <i class="fa fa-arrow-right"></i> {{subcat.nombre}}</h2> </button>
+              </div>
+            }
           </div>
         </div>
-      }
+      </div>
     </div>
-    <ng-template #sinProductos>
-      <h1 class="titulo mt-5">Sin productos en la categoría</h1>
-    </ng-template>
-  </div>
-
+  }@else{
+    <ng-container>
+      <h1 class="text-center titulo mt-5">Sin productos en la categoría {{getActiveItem()}}</h1>
+    </ng-container>
+  }
 </div>
 
 <!--Modal de producto-->
@@ -60,16 +87,16 @@
       </div>
       <div class="modal-body">
         <div class="row mx-3">
-          <div class="col col-12 col-md-8 border-per">
+          <div class="col col-12 col-lg-8 border-per">
             <p class="texto" style="color: white;">
               {{detailProducto?.Descripcion}}
             </p>
             <div class="text-center w-100">
-              <img [src]="detailProducto?.imagen" class="img-fluid">
+              <img [src]="detailProducto?.imagen" class="img-fluid" style="max-height: 400px;">
             </div>
 
           </div>
-          <div class="col col-12 text-center col-md-4">
+          <div class="col col-12 text-center col-lg-4">
             <h4 class="titulo" style="color: white; font-weight: bold;">Ingredientes</h4>
             <ul>
               @for (ingrediente of detailProducto?.ingredientes; track $index) {

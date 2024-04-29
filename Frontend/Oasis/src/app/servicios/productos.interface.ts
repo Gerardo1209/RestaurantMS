@@ -4,7 +4,7 @@ export interface Categoria{
   descripcion:string,
   habilitado:boolean,
   imagen:string,
-
+  subcategorias?:Subcategoria[];
   //valores locales
   active:boolean
 }
@@ -15,6 +15,7 @@ export interface Subcategoria{
   nombre:string,
   descripcion:string,
   habilitado:boolean
+  productos?:Producto[];
 }
 
 export interface Ingrediente{

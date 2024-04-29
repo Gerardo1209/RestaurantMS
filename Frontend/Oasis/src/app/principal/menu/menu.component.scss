@@ -18,6 +18,7 @@
     margin-top: -100px;
     background-color: white;
     border-radius: 40px;
+    height: 100%;
   }
   .active-card{
     background-color: #EA6A12;
@@ -27,11 +28,12 @@
 .img-producto{
   position: relative;
   z-index: 5;
-  width: auto;
-  max-width: 200px;
-  max-height: 150px;
-  margin: auto;
   margin-bottom: 15px;
+  aspect-ratio: 1/1;
+  max-height: 190px;
+  float: left;
+  width:  100%;
+  object-fit: contain;
 }
 
 .texto-naranja{
@@ -43,12 +45,27 @@
   background-color: #EA6A12;
 }
 
-.col-per{
-  padding: 2rem;
+.col-per-cat{
+  margin-top: 1rem;
 }
 
+.col-per{
+  margin-top: 1rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
+
+
 #categorias{
-  width: 80%;
+  width: 95%;
+  overflow-x: auto;
+  white-space: nowrap; /* Evita que los elementos internos pasen a la siguiente línea */
+}
+
+
+#subcategorias{
+  width: 90%;
 }
 
 #cat-sel{
@@ -66,6 +83,14 @@
 .active-br{
   color: white;
   border: 1.5px solid white;
+}
+
+.img-aspect{
+  aspect-ratio: 1/1;
+  float: left;
+  width:  100%;
+  max-height: 300px;
+  object-fit: contain;
 }
 
 .btn-cat{
@@ -94,7 +119,7 @@
 }
 
 .modal-content-per{
-  background-color: #ea6812d5;
+  background-color: #ea6812ea;
   .modal-header{
     border: none;
     .modal-title{
@@ -106,10 +131,45 @@
     .border-per{
       border-right: 1px solid white;
     }
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 992px) {
       .border-per{
         border-right: none;
       }
     }
+  }
+}
+
+.btn-subcat {
+  font-family: 'Tilt_Neon', sans-serif;
+  color: white;
+  background-color: #F03153;
+  border: 3px solid #F03153;
+  border-radius: 25px;
+  min-width: fit-content;
+  width: 60%;
+}
+
+.btn-subcat:hover {
+  color: #F03153;
+  background-color: white;
+}
+
+.btn-subcat:active{
+background-color: #BD0D0D;
+border-color: #BD0D0D;
+color: white;
+}
+
+.container-subcats{
+  background-color: white;
+  border-radius: 40px;
+  top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .titulo{
+    color: black;
+  }
+  h2{
+    margin-bottom: 0 !important;
   }
 }

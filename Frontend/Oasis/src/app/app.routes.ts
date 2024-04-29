@@ -26,8 +26,8 @@ export const routes: Routes = [
       redirectTo: 'inicio',
       pathMatch: 'full'
     },
-    {
+    /*{
       path: '**',
       redirectTo: 'inicio'
-    }
+    }*/
 ];

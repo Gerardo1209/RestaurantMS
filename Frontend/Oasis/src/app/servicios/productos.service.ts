@@ -12,7 +12,12 @@ export class ProductosService {
   constructor(private httpClient:HttpClient) { }
 
   getCategorias():Observable<ResponseObject<Categoria[]>>{
-    return <Observable<ResponseObject<Categoria[]>>> this.httpClient.get(serverdirection + APIS.GET_CATEGORIA)
+    return <Observable<ResponseObject<Categoria[]>>> this.httpClient.get(serverdirection + APIS.GET_CATEGORIAS)
+  }
+
+  getCategoria(idCategoria:number):Observable<ResponseObject<Categoria>>{
+    var url = APIS.GET_CATEGORIA.replace(':idCategoria',idCategoria.toString());
+    return <Observable<ResponseObject<Categoria>>> this.httpClient.get(serverdirection + url)
   }
 
   getSubcategorias():Observable<ResponseObject<Subcategoria[]>>{
@@ -24,7 +29,7 @@ export class ProductosService {
   }
 
   getProducto(idProducto:number):Observable<ResponseObject<Producto>>{
-    var url = APIS.GET_PRODUCTO.replace('?',idProducto.toString());
+    var url = APIS.GET_PRODUCTO.replace(':idProducto',idProducto.toString());
     return <Observable<ResponseObject<Producto>>> this.httpClient.get(serverdirection + url)
   }
 
