@@ -1,0 +1,39 @@
+#img1{
+    height: 120vh;
+    margin: 10vh 0 10vh 0;
+    background-image: url('/assets/png/2.png');
+    background-size: 120vh;
+    background-repeat: no-repeat;
+}
+h1{
+    color: white;
+    margin-top: 5%;
+    width: 100%;
+    text-align: center;
+}
+#inputText1{
+    background-color: #FF9000;
+    color: white;
+    margin: 5% 0 0 5%;
+    border: none;
+    width: 90%;
+    border-radius:20px;
+}
+#inputText2{
+    background-color: #BD0D0D;
+    color: white;
+    margin: 5% 0 0 5%;
+    border: none;
+    width: 90%;
+    border-radius:20px;
+    text-align: center;
+    margin-top: 90%;
+}
+#btn1{
+    background-color: #BD0D0D;
+    color: white;
+    border-radius:20px;
+    margin-top: 5%;
+    width: 60%;
+    margin: 45% 0 0 20%;
+}
