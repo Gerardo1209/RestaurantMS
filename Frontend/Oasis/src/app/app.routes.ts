@@ -4,6 +4,7 @@ import { MenuComponent } from './principal/menu/menu.component';
 import { PreguntasComponent } from './principal/preguntas/preguntas.component';
 import { UbicacionComponent } from './principal/ubicacion/ubicacion.component';
 import { IniciarsesionComponent } from './sistema/iniciarsesion/iniciarsesion.component';
+import { SidenavComponent } from './sistema/sidenav/sidenav.component';
 
 export const routes: Routes = [
     {
@@ -27,9 +28,13 @@ export const routes: Routes = [
         component: IniciarsesionComponent,
     },
     {
-      path: '',
-      redirectTo: 'inicio',
-      pathMatch: 'full'
+        path: 'side',
+        component: SidenavComponent,
+    },
+    {
+        path: '',
+        redirectTo: 'inicio',
+        pathMatch: 'full'
     },
     /*{
       path: '**',
