@@ -14,7 +14,7 @@ router.get('/categorias', async (req, res) => {
         const result = await request.query('SELECT * FROM categoria');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: false, error: error.message });
     }
 });
 
@@ -37,7 +37,7 @@ router.get('/categoria/:idCategoria', async (req, res) => {
       resultCat.subcategorias = subcategorias;
       res.json({success: true, message: resultCat});
   } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.json({ success: false, error: error.message });
   }
 });
 
@@ -61,7 +61,7 @@ router.post('/categoria/nueva', async (req, res) => {
         res.json({success: true, message: "Se ha creado la Categoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -85,7 +85,7 @@ router.post('/categoria/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado la Categoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -112,7 +112,7 @@ router.post('/categoria/baja', async (req, res) => {
         res.json({success: true, message: "Se ha Deshabilitado la Categoria, Subcategorias y Productos correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -139,7 +139,7 @@ router.post('/categoria/recuperar', async (req, res) => {
         res.json({success: true, message: "Se han Habilitado la Categoria, Subcategorias y Productos correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -153,7 +153,7 @@ router.get('/subcategorias', async (req, res) => {
         const result = await request.query('SELECT * FROM subcategoria;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -168,7 +168,7 @@ router.get('/subcategoria/:idSubCategoria', async (req, res) => {
       subcategoria.productos = resultProd.recordset;
       res.json({success: true, message: subcategoria});
   } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.json({ success: false, error: error.message });
   }
 });
 
@@ -192,7 +192,7 @@ router.post('/subcategoria/nueva', async (req, res) => {
         res.json({success: true, message: "Se ha creado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -216,7 +216,7 @@ router.post('/subcategoria/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -237,7 +237,7 @@ router.post('/subcategoria/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -257,7 +257,7 @@ router.post('/subcategoria/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -271,7 +271,7 @@ router.get('/ingredientes', async (req, res) => {
         const result = await request.query('SELECT * FROM ingredientes;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -284,7 +284,7 @@ router.get('/ingrediente/:idIngrediente', async (req, res) => {
         const result = await request.query('SELECT * FROM ingredientes WHERE id=@id;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -307,7 +307,7 @@ router.post('/ingrediente/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -330,7 +330,7 @@ router.post('/ingrediente/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -350,7 +350,7 @@ router.post('/ingrediente/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -370,7 +370,7 @@ router.post('/ingrediente/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -382,7 +382,7 @@ router.get('/productos', async (req, res) => {
         const result = await request.query('SELECT p.*, s.id_cat FROM producto p, subcategoria s WHERE p.id_subcat=s.id;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -397,7 +397,7 @@ router.get('/producto/:idProducto', async (req, res) => {
         producto.ingredientes = resultIng.recordset;
         res.json({success: true, message: producto});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -434,7 +434,7 @@ router.post('/producto/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -472,7 +472,7 @@ router.post('/producto/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -491,7 +491,7 @@ router.post('/prodcuto/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -511,7 +511,7 @@ router.post('/prodcuto/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 

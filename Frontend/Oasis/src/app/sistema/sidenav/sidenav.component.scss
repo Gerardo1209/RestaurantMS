@@ -3,15 +3,39 @@
 }
 
 .side {
-    margin-left: 10px;
     border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.945);
+    background-color: rgba(255, 255, 255, 1);
+    height: 80vh;
+    overflow: auto;
+    width: fit-content;
 }
 
-.side a {
-    color: rgb(0, 0, 0);
+.no-selected {
+  width: 100%;
+  font-family: 'Tilt_Neon', sans-serif;
+  color: white;
+  background-color: #F03153;
+  border: 3px solid #F03153;
+  border-radius: 25px;
+  min-width: fit-content;
+  width: 60%;
 }
 
-.side a:hover {
-    color: #F03153;
+
+
+.no-selected:hover {
+  color: #F03153;
+  background-color: white;
+}
+
+.no-selected:active{
+  background-color: #BD0D0D;
+  border-color: #BD0D0D;
+  color: white;
+}
+
+.selected {
+  color: white !important;
+  background-color: #BD0D0D !important;
+  border: 3px solid #BD0D0D !important;
 }

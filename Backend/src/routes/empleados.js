@@ -14,7 +14,7 @@ router.get('/puestos', async (req, res) => {
         const result = await request.query('SELECT * FROM puesto');
         res.json( {success: true, message: result.recordset} );
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: false, error: error.message });
     }
 });
 
@@ -26,7 +26,7 @@ router.get('/estados', async (req, res) => {
         const result = await request.query('SELECT * FROM estado');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: false, error: error.message });
     }
 });
 
@@ -38,7 +38,7 @@ router.get('/municipios', async (req, res) => {
         const result = await request.query('SELECT * FROM municipio',);
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: false, error: error.message });
     }
 });
 
@@ -52,7 +52,7 @@ router.get('/municipios/:idEstado', async (req, res) => {
         const result = await request.query('SELECT * FROM municipio WHERE id_edo=@id_edo',);
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -64,7 +64,7 @@ router.get('/empleados', async (req, res) => {
         const result = await request.query('SELECT * FROM empleados');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -80,7 +80,7 @@ router.get('/empleado/consultar/:idEmpleado', async (req, res) => {
         const resultDir = await request.query('SELECT * FROM direccion WHERE id=@id_dir;');
         res.json({success: true, message: { empleado: result.recordset[0], direccion: resultDir.recordset[0] }});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -94,7 +94,7 @@ router.get('/direccion/:idEmpleado', async (req, res) => {
         const result = await request.query('SELECT * FROM direccion WHERE id=(SELECT cdg_dir FROM empleados WHERE id=@id_emp);');
         res.json({success: true, message: result.recordset[0]});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -106,7 +106,7 @@ router.get('/direcciones', async (req, res) => {
         const result = await request.query('SELECT * FROM direccion;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -120,7 +120,7 @@ router.post('/empleado/login', async(req,res) => {
         const result = await request.query('SELECT * FROM empleados WHERE usuario=@usuario;');
         res.json({success: true, message: result.recordset[0]});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -166,7 +166,7 @@ router.post('/empleado/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el empleado correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -187,7 +187,7 @@ router.post('/empleado/baja', async (req, res) => {
         res.json({success: true, message: "Se ha desactivado el empleado correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -208,7 +208,7 @@ router.post('/empleado/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha reactivado el empleado correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -257,7 +257,7 @@ router.post('/empleado/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado el Empleado correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 

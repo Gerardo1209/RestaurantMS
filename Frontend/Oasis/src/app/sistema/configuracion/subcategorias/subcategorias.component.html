@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col col-6 col-md-3 col-xl-2">
+      <app-sidenav></app-sidenav>
+    </div>
+    <div class="col col-6 col-md-9 col-xl-10">
+      <h2 class="titulo text-center mt-4">Subcategorías</h2>
+      <div class="outer-container">
+        <div class="container-sub">
+
+          <form [formGroup]="formulario" (ngSubmit)="nuevaSubcategoria()">
+            <div class="mb-3 container-subSelect">
+              <label for="subcategoriaSelect" class="form-label">Subcategoría</label>
+              <select class="form-select" id="subcategoriaSelect" name="subcategoria">
+                <option value="0" selected>Nueva subcategoría</option>
+                <option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">{{ subcategoria.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="categoriaSelect" class="form-label">Categoría</label>
+              <select formControlName="id_categoria" class="form-select" id="categoriaSelect" name="categoria">
+                <option value="0" disabled selected>Seleccionar categoría</option>
+                <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="nombreInput" class="form-label">Nombre</label>
+              <input formControlName="nombre" type="text" class="form-control" id="nombreInput" name="nombre">
+            </div>
+
+            <div class="mb-3">
+              <label for="descripcionInput" class="form-label">Descripción</label>
+              <input formControlName="descripcion" type="text" class="form-control" id="descripcionInput" name="descripcion">
+            </div>
+            <!--Ya con el formgroup y el form control name queda configurado el formulario, el ngsubmit sigue siendo necesario, lo unico sería agregar el disabled del boton-->
+
+            <div class="mb-3">
+              <button type="submit" [disabled]="formulario.invalid" class="btn btn-primary me-2">Guardar</button>
+              <button type="button" class="btn btn-secondary">Habilitar/Desactivar</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+      </div>
+
+  </div>
+</div>
