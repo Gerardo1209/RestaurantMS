@@ -62,6 +62,8 @@ router.get('/empleados', async (req, res) => {
         const pool = await db.pool;
         const request = await pool.request();
         const result = await request.query('SELECT * FROM empleados');
+        //console.log("Cantidad de Registros: ", result.recordset.length);
+        //console.log("Extraer ID del tercer renglon: ", result.recordset[3].id);
         res.json({success: true, message: result.recordset});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -226,7 +228,7 @@ router.post('/empleado/cambio', async (req, res) => {
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         if(body.contrasena.length <= 8) throw new Error("La contraseña debe ser de al menos 8 caracteres");
-        request.input('id_emp', db.sql.Int, body.id)
+        request.input('id_emp', db.sql.Int, body.id);
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('ap', db.sql.VarChar, body.ap);
         request.input('am', db.sql.VarChar, body.am);
