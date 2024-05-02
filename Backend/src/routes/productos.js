@@ -278,6 +278,19 @@ router.get('/ingredientes', async (req, res) => {
     }
 });
 
+router.get('/ingrediente/:idIngrediente', async (req, res) => {
+    try {
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
+        const pool = await db.pool;
+        const request = await pool.request();
+        request.input('id', db.sql.Int, req.params.idIngrediente);
+        const result = await request.query('SELECT * FROM ingredientes WHERE id=@id;');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 
 router.post('/ingrediente/nuevo', async (req, res) => {
     const pool = await db.pool;
