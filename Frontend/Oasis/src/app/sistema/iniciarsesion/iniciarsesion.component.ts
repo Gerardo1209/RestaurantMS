@@ -1,27 +1,29 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-iniciarsesion',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './iniciarsesion.component.html',
   styleUrl: './iniciarsesion.component.scss'
 })
 export class IniciarsesionComponent {
-  email:string;
-  password:string;
+
+  formLogin: FormGroup = new FormGroup({
+    usuario: new FormControl<string>('', [Validators.required, Validators.email]),
+    contrasena: new FormControl<string>('', [Validators.required])
+  })
 
   constructor(){
-    this.email = "";
-    this.password = "";
   }
 
-  onSubmit(form:NgForm){
-    if(form.valid){
-      this.email = form.value.email;
-      this.password = form.value.password;
-    }
+
+
+  onSubmit(){
+
   }
-  
+
 }
