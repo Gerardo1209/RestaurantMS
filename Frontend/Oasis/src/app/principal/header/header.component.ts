@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
+import { AlertasService } from '../../servicios/alertas.service';
+import { Empleado } from '../../servicios/empleados.interface';
 
 @Component({
   selector: 'app-header',
@@ -11,20 +15,33 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class HeaderComponent {
   selectedButton: string = '';
+  private eventSubscription!:Subscription;
+  @Input() evento!:Observable<any>;
+  usuario:Empleado|undefined;
+
+  constructor(
+    private router:Router,
+    private alertasService:AlertasService
+  ){}
 
   ngOnInit() {
-    const storedSelectedButton = localStorage.getItem('selectedButton');
-    if (storedSelectedButton) {
-      this.selectedButton = storedSelectedButton;
+    this.eventSubscription = this.evento.subscribe(() => {
+      this.obtenerSesion();
+    });
+    this.obtenerSesion();
+  }
+
+  async obtenerSesion(){
+    this.usuario = JSON.parse(sessionStorage.getItem('usuario')!);
+    console.log(this.usuario);
+  }
+
+  cerrarSesion(){
+    if(this.usuario != undefined){
+      sessionStorage.removeItem('usuario');
+      this.alertasService.success('Sesión cerrada');
+      this.usuario = undefined;
+      this.router.navigate(['/']);
     }
-  }
-
-  selectButton(buttonName: string) {
-    this.selectedButton = buttonName;
-    localStorage.setItem('selectedButton', buttonName);
-  }
-
-  isSelected(buttonName: string): boolean {
-    return this.selectedButton === buttonName;
   }
 }

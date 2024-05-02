@@ -5,6 +5,8 @@ export interface Categoria{
   habilitado:boolean,
   imagen:string,
   subcategorias?:Subcategoria[];
+  usr_usuario?:string;
+  usr_contrasena?:string;
   //valores locales
   active:boolean
 }
@@ -16,6 +18,8 @@ export interface Subcategoria{
   descripcion:string,
   habilitado:boolean
   productos?:Producto[];
+  usr_usuario?:string;
+  usr_contrasena?:string;
 }
 
 export interface Ingrediente{
@@ -25,6 +29,8 @@ export interface Ingrediente{
   costo:number,
   habilitado:boolean,
   cantidad?:string
+  usr_usuario?:string;
+  usr_contrasena?:string;
 }
 
 export interface Producto{
@@ -38,6 +44,8 @@ export interface Producto{
   habilitado:boolean,
   tiempo:string,
   ingredientes?:Ingrediente[]
+  usr_usuario?:string;
+  usr_contrasena?:string;
   //Variables locales
   active:boolean
 }

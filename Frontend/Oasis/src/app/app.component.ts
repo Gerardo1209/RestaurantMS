@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { InicioComponent } from './principal/inicio/inicio.component';
 import { HeaderComponent } from './principal/header/header.component';
 import { FooterComponent } from './principal/footer/footer.component';
+import { IniciarsesionComponent } from './sistema/iniciarsesion/iniciarsesion.component';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,17 @@ import { FooterComponent } from './principal/footer/footer.component';
 export class AppComponent implements OnInit{
   title = 'Oasis';
   outlet:HTMLDivElement | undefined;
+  iniciarSesion = new EventEmitter();
 
   constructor(private router:Router){}
+
+  suscribeToEmmiter(componentRef:Component){
+    if(componentRef instanceof IniciarsesionComponent){
+      componentRef.loginEvent.subscribe(()=>{
+        this.iniciarSesion.emit();
+      });
+    }
+  }
 
   ngOnInit(): void {
     /*this.outlet = <HTMLDivElement>document.getElementById("router-outlet-container");

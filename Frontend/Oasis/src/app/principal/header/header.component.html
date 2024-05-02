@@ -7,7 +7,7 @@
             <div class="col col-9  col-sm-10 pe-4 pe-md-0 col-md-4">
               <div class="search w-100">
                 <div class="d-flex" role="search">
-                  <input class="form-control me-2 search-input" type="search" placeholder="Buscar"
+                  <input class="form-control me-2 search-input texto" type="search" placeholder="Buscar"
                       aria-label="Buscar">
                   <button class="btn btn-search-per"><i class="fa fa-search"></i></button>
                 </div>
@@ -16,20 +16,23 @@
             </div>
             <div class="col col-10 mb-2 mb-md-0 col-md-4 p-0 m-0">
               <div class="d-flex justify-content-center justify-content-md-end">
-                <button type="button" class="btn btn-reservar me-3">Reservar</button>
-                <button type="button" class="btn btn-reservar me-3" routerLink="iniciarsesion">Ingresar</button>
+                <button type="button" class="btn btn-reservar ms-3 me-3">Reservar</button>
+                <button type="button" class="btn btn-reservar me-3" [routerLink]="'iniciarsesion'" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
               </div>
             </div>
         </div>
 
         <div class="section-2">
-            <a class="link texto ms-1" [class.selected]="isSelected('Inicio')" routerLink="inicio"
-                (click)="selectButton('Inicio')"><div>Inicio</div></a>
-            <a class="link texto ms-1" [class.selected]="isSelected('Menú')" routerLink="menu"
-                (click)="selectButton('Menú')"><div>Menú</div></a>
-            <a class="link texto ms-1" [class.selected]="isSelected('Ubicación')" routerLink="ubicacion"
-                (click)="selectButton('Ubicación')"><div>Ubicación</div></a>
-            <a class="link texto ms-1 me-1" [class.selected]="isSelected('FAQ')" routerLink="FAQ" (click)="selectButton('FAQ')"><div>FAQ</div></a>
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="inicio"
+                ><div>Inicio</div></a>
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="menu"
+                ><div>Menú</div></a>
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="ubicacion"
+                ><div>Ubicación</div></a>
+            <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="FAQ"><div>FAQ</div></a>
+            @if(usuario != undefined){
+              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/subcategorias"><div>Sistema</div></a>
+            }
         </div>
 
     </div>

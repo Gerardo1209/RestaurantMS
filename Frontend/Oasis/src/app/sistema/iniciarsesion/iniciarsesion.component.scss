@@ -25,8 +25,6 @@
     width: 100%;
     margin: 0;
     text-align: left;
-    padding-left: 5%;
-    padding-bottom: 1%;
 }
 #img2{
     background-image: url('/assets/png/7.png');
@@ -109,7 +107,13 @@
 }
 
 .btn-inciar:active{
-background-color: #BD0D0D;
-border-color: #BD0D0D;
-color: white;
+  background-color: #BD0D0D;
+  border-color: #BD0D0D;
+  color: white;
+}
+
+.btn-inciar:disabled{
+  background-color: #f0315457;
+  border: 3px solid #f0315457;
+  color: white;
 }

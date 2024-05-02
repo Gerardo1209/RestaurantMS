@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../Auth/sql')
 const authManager = require('../Auth/user_permision');
+const fileUpload = require('express-fileupload');
 
 // 1. CATEGORIA
 router.get('/categorias', async (req, res) => {
@@ -14,7 +15,7 @@ router.get('/categorias', async (req, res) => {
         const result = await request.query('SELECT * FROM categoria');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: false, error: error.message });
     }
 });
 
@@ -37,7 +38,7 @@ router.get('/categoria/:idCategoria', async (req, res) => {
       resultCat.subcategorias = subcategorias;
       res.json({success: true, message: resultCat});
   } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.json({ success: false, error: error.message });
   }
 });
 
@@ -47,6 +48,10 @@ router.post('/categoria/nueva', async (req, res) => {
     try {
         await transaction.begin();
         if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
+        const { image } = req.files;
+        if(!image) throw new Error("Error al agregar la imagen");
+        if (!/^image/.test(image.mimetype)) throw new Error("El archivo enviado no es una imagen");
+        image.mv(__dirname+'/../upload/'+image.name);
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input('nombre', db.sql.VarChar, body.nombre);
@@ -61,7 +66,7 @@ router.post('/categoria/nueva', async (req, res) => {
         res.json({success: true, message: "Se ha creado la Categoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -85,7 +90,7 @@ router.post('/categoria/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado la Categoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -112,7 +117,7 @@ router.post('/categoria/baja', async (req, res) => {
         res.json({success: true, message: "Se ha Deshabilitado la Categoria, Subcategorias y Productos correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -139,7 +144,7 @@ router.post('/categoria/recuperar', async (req, res) => {
         res.json({success: true, message: "Se han Habilitado la Categoria, Subcategorias y Productos correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -153,7 +158,7 @@ router.get('/subcategorias', async (req, res) => {
         const result = await request.query('SELECT * FROM subcategoria;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -168,7 +173,7 @@ router.get('/subcategoria/:idSubCategoria', async (req, res) => {
       subcategoria.productos = resultProd.recordset;
       res.json({success: true, message: subcategoria});
   } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
+      res.json({ success: false, error: error.message });
   }
 });
 
@@ -192,7 +197,7 @@ router.post('/subcategoria/nueva', async (req, res) => {
         res.json({success: true, message: "Se ha creado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -207,7 +212,7 @@ router.post('/subcategoria/cambio', async (req, res) => {
 
         let body = req.body;
         request.input('id', db.sql.Int, body.id);
-        request.input('id_cat', db.sql.VarChar, body.id_cat);
+        request.input('id_cat', db.sql.Int, body.id_cat);
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         const result = await request.query('UPDATE subcategoria SET id_cat=@id_cat, nombre=@nombre, descripcion=@descripcion WHERE id=@id;');
@@ -216,7 +221,7 @@ router.post('/subcategoria/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -237,7 +242,7 @@ router.post('/subcategoria/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -257,7 +262,7 @@ router.post('/subcategoria/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado la subcategoria correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -271,7 +276,7 @@ router.get('/ingredientes', async (req, res) => {
         const result = await request.query('SELECT * FROM ingredientes;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -284,7 +289,7 @@ router.get('/ingrediente/:idIngrediente', async (req, res) => {
         const result = await request.query('SELECT * FROM ingredientes WHERE id=@id;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -307,7 +312,7 @@ router.post('/ingrediente/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -330,7 +335,7 @@ router.post('/ingrediente/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -350,7 +355,7 @@ router.post('/ingrediente/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -370,7 +375,7 @@ router.post('/ingrediente/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado el ingrediente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -382,7 +387,7 @@ router.get('/productos', async (req, res) => {
         const result = await request.query('SELECT p.*, s.id_cat FROM producto p, subcategoria s WHERE p.id_subcat=s.id;');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -397,7 +402,7 @@ router.get('/producto/:idProducto', async (req, res) => {
         producto.ingredientes = resultIng.recordset;
         res.json({success: true, message: producto});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -407,14 +412,17 @@ router.post('/producto/nuevo', async (req, res) => {
     try {  
         await transaction.begin();
         if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
+        const { image } = req.files;
+        if(!image) throw new Error("Error al agregar la imagen");
+        if (!/^image/.test(image.mimetype)) throw new Error("El archivo enviado no es una imagen");
+        image.mv(__dirname+'/../upload/'+image.name);
         const request = await new db.sql.Request(transaction);
-        
         let body = req.body;
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('precio', db.sql.Float, body.precio);
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         request.input('id_subcat',db.sql.Int,body.id_subcat);
-        request.input('imagen',db.sql.VarChar,body.imagen);
+        request.input('imagen',db.sql.VarChar,image.name);
         request.input('tiempo',db.sql.VarChar,body.tiempo);
         request.input('habilitado',db.sql.Bit,1);
         if(!body.ingredientes) throw new Error("No se enviaron los ingredientes del producto");
@@ -434,7 +442,7 @@ router.post('/producto/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -472,7 +480,7 @@ router.post('/producto/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha editado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -491,7 +499,7 @@ router.post('/prodcuto/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de baja el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -511,7 +519,7 @@ router.post('/prodcuto/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha recuperado el producto correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 

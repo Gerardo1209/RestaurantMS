@@ -1,5 +1,5 @@
-<app-header></app-header>
+<app-header [evento]="iniciarSesion.asObservable()"></app-header>
 <div class="outer-container" id="router-outlet-container">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="suscribeToEmmiter($event)" (deactivate)="suscribeToEmmiter($event)"></router-outlet>
 </div>
 <app-footer></app-footer>

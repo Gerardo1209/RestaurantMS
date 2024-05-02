@@ -4,6 +4,7 @@ import { ProductosService } from '../../servicios/productos.service';
 import { Categoria, Producto, Subcategoria } from '../../servicios/productos.interface';
 import { AlertasService } from '../../servicios/alertas.service';
 
+
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -13,6 +14,8 @@ import { AlertasService } from '../../servicios/alertas.service';
 })
 export class MenuComponent implements OnInit{
 
+  loading:boolean = true;
+  loadingCategorias:boolean = true;
   categorias:Categoria[] = [];
   showCategorias:Categoria[] = [];
   activeCategoria:Categoria|undefined;
@@ -21,8 +24,9 @@ export class MenuComponent implements OnInit{
   productosMostrar:Producto[] = [];
   detailProducto:Producto|undefined;
 
-  constructor(private productosService:ProductosService,
-              private alertasService:AlertasService
+  constructor(
+    private productosService:ProductosService,
+    private alertasService:AlertasService
   ){}
 
   async ngOnInit() {
@@ -30,6 +34,7 @@ export class MenuComponent implements OnInit{
   }
 
   async getCategorias(){
+    this.loadingCategorias = true;
     await this.productosService.getCategorias().forEach((res) => {
       if(res.success && typeof res.message == 'object'){
         this.categorias = res.message;
@@ -49,6 +54,7 @@ export class MenuComponent implements OnInit{
   ]
 
   async changeActive(item:Categoria){
+    this.loading = true;
     var active = this.categorias.find((a)=>{return a.active == true});
     if(active)active.active = false
     var find = this.categorias.find((a)=>{return a.nombre == item.nombre});
@@ -62,8 +68,14 @@ export class MenuComponent implements OnInit{
           if(typeof res.message == 'string') this.alertasService.error(res.message)
         }
       })
+      this.loading = false;
+      this.loadingCategorias = false;
       this.activeSubcategorias = this.activeCategoria?.subcategorias || [];
+    }else{
+      this.loadingCategorias = false;
+      this.loading = false;
     }
+
   }
 
   getActiveItem():string{

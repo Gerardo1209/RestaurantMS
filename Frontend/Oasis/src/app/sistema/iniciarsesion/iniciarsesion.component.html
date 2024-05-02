@@ -9,8 +9,8 @@
                     <label for="inputUsuario" class="texto" id="texto1">Usuario</label>
                     <input type="text" class="form-control mb-2 texto" id="inputUsuario" formControlName="usuario">
                     <label for="inputContrasena" class="texto" id="texto1">Contraseña</label>
-                    <input type="text" class="form-control mb-2 texto" id="inputContrasena" formControlName="contrasena">
-                    <button type="submit" class="btn btn-inciar texto mt-2" id="btn1">Iniciar sesión</button>
+                    <input type="password" class="form-control mb-2 texto" id="inputContrasena" formControlName="contrasena">
+                    <button type="submit" [disabled]="!formLogin.valid || loading" class="btn btn-inciar texto mt-2" id="btn1"><div *ngIf="loading" class="spinner-border spinner-border-sm" role="status"></div> Iniciar sesión</button>
                 </form>
             </div>
         </div>
