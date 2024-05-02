@@ -89,7 +89,7 @@ router.post('/categoria/cambio', async (req, res) => {
     }
 });
 
-router.delete('/categoria/baja', async (req, res) => {
+router.post('/categoria/baja', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -116,7 +116,7 @@ router.delete('/categoria/baja', async (req, res) => {
     }
 });
 
-router.put('/categoria/recuperar', async (req, res) => {
+router.post('/categoria/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -142,10 +142,6 @@ router.put('/categoria/recuperar', async (req, res) => {
         res.status(500).json({success:false, message: error.message });
     }
 });
-
-
-
-
 
 
 // 2. SUBCATEGORIA
@@ -224,7 +220,7 @@ router.post('/subcategoria/cambio', async (req, res) => {
     }
 });
 
-router.delete('/subcategoria/baja', async (req, res) => {
+router.post('/subcategoria/baja', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -245,7 +241,7 @@ router.delete('/subcategoria/baja', async (req, res) => {
     }
 });
 
-router.put('/subcategoria/recuperar', async (req, res) => {
+router.post('/subcategoria/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -266,6 +262,7 @@ router.put('/subcategoria/recuperar', async (req, res) => {
 });
 
 // 3. INGREDIENTES
+
 router.get('/ingredientes', async (req, res) => {
     try {
         if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
@@ -290,7 +287,6 @@ router.get('/ingrediente/:idIngrediente', async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 });
-
 
 router.post('/ingrediente/nuevo', async (req, res) => {
     const pool = await db.pool;
@@ -338,7 +334,7 @@ router.post('/ingrediente/cambio', async (req, res) => {
     }
 });
 
-router.delete('/ingrediente/baja', async (req, res) => {
+router.post('/ingrediente/baja', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -358,7 +354,7 @@ router.delete('/ingrediente/baja', async (req, res) => {
     }
 });
 
-router.put('/ingrediente/recuperar', async (req, res) => {
+router.post('/ingrediente/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -480,7 +476,7 @@ router.post('/producto/cambio', async (req, res) => {
     }
 });
 
-router.delete('/prodcuto/baja', async (req, res) => {
+router.post('/prodcuto/baja', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -499,7 +495,7 @@ router.delete('/prodcuto/baja', async (req, res) => {
     }
 });
 
-router.put('/prodcuto/recuperar', async (req, res) => {
+router.post('/prodcuto/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {

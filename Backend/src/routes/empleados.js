@@ -170,7 +170,7 @@ router.post('/empleado/nuevo', async (req, res) => {
     }
 });
 
-router.delete('/empleado/baja', async (req, res) => {
+router.post('/empleado/baja', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -191,7 +191,7 @@ router.delete('/empleado/baja', async (req, res) => {
     }
 });
 
-router.put('/empleado/recuperar', async (req, res) => {
+router.post('/empleado/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
