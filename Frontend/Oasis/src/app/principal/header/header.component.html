@@ -16,20 +16,23 @@
             </div>
             <div class="col col-10 mb-2 mb-md-0 col-md-4 p-0 m-0">
               <div class="d-flex justify-content-center justify-content-md-end">
-                <button type="button" class="btn btn-reservar me-3">Reservar</button>
-                <button type="button" class="btn btn-reservar me-3" routerLink="iniciarsesion">Ingresar</button>
+                <button type="button" class="btn btn-reservar ms-3 me-3">Reservar</button>
+                <button type="button" class="btn btn-reservar me-3" [routerLink]="'iniciarsesion'" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
               </div>
             </div>
         </div>
 
         <div class="section-2">
             <a class="link texto ms-1" routerLinkActive="selected" routerLink="inicio"
-                (click)="selectButton('Inicio')"><div>Inicio</div></a>
+                ><div>Inicio</div></a>
             <a class="link texto ms-1" routerLinkActive="selected" routerLink="menu"
-                (click)="selectButton('Menú')"><div>Menú</div></a>
+                ><div>Menú</div></a>
             <a class="link texto ms-1" routerLinkActive="selected" routerLink="ubicacion"
-                (click)="selectButton('Ubicación')"><div>Ubicación</div></a>
-            <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="FAQ" (click)="selectButton('FAQ')"><div>FAQ</div></a>
+                ><div>Ubicación</div></a>
+            <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="FAQ"><div>FAQ</div></a>
+            @if(usuario != undefined){
+              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/subcategorias"><div>Sistema</div></a>
+            }
         </div>
 
     </div>

@@ -5,7 +5,7 @@
 .side {
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 1);
-    height: 80vh;
+    max-height: 80vh;
     overflow: auto;
     width: fit-content;
 }

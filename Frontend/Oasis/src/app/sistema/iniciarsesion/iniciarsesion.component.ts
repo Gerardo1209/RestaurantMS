@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class IniciarsesionComponent {
 
   loading:boolean = false;
+  loginEvent = new EventEmitter();
   formLogin: FormGroup = new FormGroup({
     usuario: new FormControl<string>('', [Validators.required]),
     contrasena: new FormControl<string>('', [Validators.required])
@@ -35,9 +36,10 @@ export class IniciarsesionComponent {
     this.empleadosService.loginEmpleado(this.formLogin.controls['usuario'].value, this.formLogin.controls['contrasena'].value)
     .forEach((res) => {
       if(res.success && typeof res.message == 'object'){
-        this.alertasService.success('Iniciando sesión');
+        this.alertasService.success('Sesión iniciada');
         sessionStorage.setItem('usuario', JSON.stringify(res.message))
         this.loading = false;
+        this.loginEvent.emit();
         this.router.navigate(['sistema/subcategorias']);
       }else{
         this.loading = false;
