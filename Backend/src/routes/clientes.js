@@ -177,7 +177,7 @@ router.post('/reservacion/cambio', async (req, res) => {
         const resultcte = await request.query('UPDATE cliente SET nombre=@nombre, ap=@ap, am=@am, telefono=@telefono, email=@email, curp=@curp WHERE id=@id_cte;');
         if(resultcte.rowsAffected[0] === 0) throw new Error("Error al Actualizar el Cliente en Reservacion");
 
-        const result = await request.query('UPDATE reservacion SET id_cliente=@id_cte, id_mesa=@id_mesa, fecha=@fecha, password=@password, WHERE id=@id_res;')
+        const result = await request.query('UPDATE reservacion SET id_cliente=@id_cte, id_mesa=@id_mesa, fecha=@fecha, password=@password WHERE id=@id_res;')
         if(result.rowsAffected[0] === 0) throw new Error("Error al Actualizar la Reservacion");
         
         await transaction.commit();
@@ -269,6 +269,7 @@ router.post('/mesa/nuevo', async (req, res) => {
         request.input('posy1', db.sql.Int, body.posy1);
         request.input('posy2', db.sql.Int, body.posy2);
         request.input('descripcion', db.sql.VarChar, body.descripcion);
+        request.input('habilitado',db.sql.Bit, 1);
         const result = await request.query('INSERT INTO mesa VALUES(@capacidad,@estado,@tipo,@posx1, @posx2, @posy1, @posy2, @descripcion, @habilitado); SELECT SCOPE_IDENTITY() AS id;')
         if(result.recordset[0].id == 0) throw new Error("Error al crear la Mesa");
         await transaction.commit();
@@ -297,7 +298,7 @@ router.post('/mesa/cambio', async (req, res) => {
         request.input('posy2', db.sql.Int, body.posy2);
         request.input('descripcion', db.sql.VarChar, body.descripcion);       
         const result = await request.query('UPDATE mesa SET capacidad=@capacidad,estado=@estado, tipo=@tipo, posx1=@posx1, posx2=@posx2, posy1=@posy1, posy2=@posy2, descripcion=@descripcion WHERE id=@id_mesa;')
-        if(result.recordset[0].id == 0) throw new Error("Error al Actualizar la Mesa");
+        if(result.rowsAffected[0] === 0) throw new Error("Error al Actualizar la Mesa");
         await transaction.commit();
         res.json({success: true, message: "Se ha Actualizado la Mesa correctamente"});
     } catch (error) {
@@ -316,7 +317,7 @@ router.post('/mesa/baja', async (req, res) => {
         let body = req.body;
         request.input('id_mesa', db.sql.Int, body.id);      
         const result = await request.query('UPDATE mesa SET habilitado=0 WHERE id=@id_mesa;')
-        if(result.recordset[0].id == 0) throw new Error("Error al dar de baja la Mesa");
+        if(result.rowsAffected[0] === 0) throw new Error("Error al dar de Baja la Mesa");
         await transaction.commit();
         res.json({success: true, message: "Se ha dado de Baja la Mesa correctamente"});
     } catch (error) {
@@ -326,7 +327,7 @@ router.post('/mesa/baja', async (req, res) => {
 });
 
 
-router.post('/mesa/recuperacion', async (req, res) => {
+router.post('/mesa/recuperar', async (req, res) => {
     const pool = await db.pool;
     const transaction = await new db.sql.Transaction(pool);
     try {
@@ -336,7 +337,7 @@ router.post('/mesa/recuperacion', async (req, res) => {
         let body = req.body;
         request.input('id_mesa', db.sql.Int, body.id);      
         const result = await request.query('UPDATE mesa SET habilitado=1 WHERE id=@id_mesa;')
-        if(result.recordset[0].id == 0) throw new Error("Error al Recuperar la Mesa");
+        if(result.rowsAffected[0] === 0) throw new Error("Error al Recuperar la Mesa");
         await transaction.commit();
         res.json({success: true, message: "Se ha Recuperado la Mesa correctamente"});
     } catch (error) {
@@ -351,3 +352,4 @@ router.post('/mesa/recuperacion', async (req, res) => {
 
 
 //Hasta el final exportar el router
+module.exports = router;
