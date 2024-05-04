@@ -350,6 +350,106 @@ router.post('/mesa/recuperar', async (req, res) => {
 
 
 
+//Detalle de orden
+
+router.get('/detalle', async (req, res) => {
+    try {
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const pool = await db.pool;
+        const request = await pool.request();
+        const result = await request.query('SELECT * FROM Detalle_Orden');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+router.post('/detalle/nuevo', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if (!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+
+        // Asignar los valores a los parámetros de la consulta
+        request.input('id_prod', db.sql.Int, body.id_prod);
+        request.input('id_orden', db.sql.Int, body.id_orden);
+        request.input('cantidad', db.sql.Int, body.cantidad);
+        request.input('p_unit', db.sql.Decimal, body.p_unit);
+        request.input('descripcion', db.sql.VarChar, body.descripcion);
+
+        // Verificar existencia del id_prod en Producto
+        const prodQuery = await request.query('SELECT COUNT(*) AS count FROM Producto WHERE id = @id_prod;');
+        if (prodQuery.recordset[0].count === 0) throw new Error('El id_prod especificado no existe en la tabla Producto');
+
+        // Verificar existencia del id_orden en Orden
+        const ordenQuery = await request.query('SELECT COUNT(*) AS count FROM Orden WHERE id = @id_orden;');
+        if (ordenQuery.recordset[0].count === 0) throw new Error('El id_orden especificado no existe en la tabla Orden');
+
+        // Insertar en Detalle_Orden
+        const result = await request.query('INSERT INTO Detalle_Orden (id_prod, id_orden, cantidad, p_unit, descripcion) VALUES (@id_prod, @id_orden, @cantidad, @p_unit, @descripcion); SELECT SCOPE_IDENTITY() AS id;');
+        if (result.recordset[0].id == 0) throw new Error("Error al insertar en Detalle_Orden");
+        
+        await transaction.commit();
+        res.json({ success: true, message: "Se ha creado el detalle de la orden correctamente" });
+    } catch (error) {
+        await transaction.rollback();
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+
+
+//Detalle de pedido ordenado
+
+router.get('/det_ped_orden', async (req, res) => {
+    try {
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const pool = await db.pool;
+        const request = await pool.request();
+        const result = await request.query('SELECT * FROM Det_Ped_Ord');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}); 
+
+router.post('/det_ped_orden/nuevo', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        
+        // Verificar existencia del id_do en Detalle_Orden
+        request.input('id_do', db.sql.Int, body.id_do);
+        const detOrdenQuery = await request.query('SELECT COUNT(*) AS count FROM Detalle_Orden WHERE id = @id_do;');
+        if (detOrdenQuery.recordset[0].count === 0) throw new Error('El id_do especificado no existe en la tabla Detalle_Orden');
+
+        // Verificar existencia del id_ingre en Ingredientes
+        request.input('id_ingre', db.sql.Int, body.id_ingre);
+        const ingredienteQuery = await request.query('SELECT COUNT(*) AS count FROM Ingredientes WHERE id = @id_ingre;');
+        if (ingredienteQuery.recordset[0].count === 0) throw new Error('El id_ingre especificado no existe en la tabla Ingredientes');
+
+        // Asignar los valores a los parámetros de la consulta
+        request.input('cantidad', db.sql.VarChar, body.cantidad);
+
+        // Insertar en Det_Ped_Ord
+        const result = await request.query('INSERT INTO Det_Ped_Ord (id_do, id_ingre, cantidad) VALUES (@id_do, @id_ingre, @cantidad); SELECT SCOPE_IDENTITY() AS id;');
+        if (result.recordset[0].id == 0) throw new Error("Error al insertar en Det_Ped_Ord");
+        
+        await transaction.commit();
+        res.json({ success: true, message: "Se ha creado el detalle del pedido de orden correctamente" });
+    } catch (error) {
+        await transaction.rollback();
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+
 
 //Hasta el final exportar el router
 module.exports = router;
