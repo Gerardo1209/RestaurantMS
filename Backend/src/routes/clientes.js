@@ -122,7 +122,6 @@ router.post('/reservacion/nuevo', async (req, res) => {
         request.input('password', db.sql.VarChar, await authManager.genContrasena(contrasena));
         request.input('habilitado', db.sql.Bit, 1);
         const cliente = body.cliente;
-        console.log(body);
         request.input('nombre', db.sql.VarChar, cliente.Nombre);
         request.input('ap', db.sql.VarChar, cliente.AP);
         request.input('am', db.sql.VarChar, cliente.AM);
