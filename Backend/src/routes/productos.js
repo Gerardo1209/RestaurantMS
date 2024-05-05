@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../Auth/sql')
 const authManager = require('../Auth/user_permision');
+const fileUpload = require('express-fileupload');
 
 // 1. CATEGORIA
 router.get('/categorias', async (req, res) => {
@@ -47,6 +48,10 @@ router.post('/categoria/nueva', async (req, res) => {
     try {
         await transaction.begin();
         if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
+        const { image } = req.files;
+        if(!image) throw new Error("Error al agregar la imagen");
+        if (!/^image/.test(image.mimetype)) throw new Error("El archivo enviado no es una imagen");
+        image.mv(__dirname+'/../upload/'+image.name);
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input('nombre', db.sql.VarChar, body.nombre);
@@ -207,7 +212,7 @@ router.post('/subcategoria/cambio', async (req, res) => {
 
         let body = req.body;
         request.input('id', db.sql.Int, body.id);
-        request.input('id_cat', db.sql.VarChar, body.id_cat);
+        request.input('id_cat', db.sql.Int, body.id_cat);
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         const result = await request.query('UPDATE subcategoria SET id_cat=@id_cat, nombre=@nombre, descripcion=@descripcion WHERE id=@id;');
@@ -407,14 +412,17 @@ router.post('/producto/nuevo', async (req, res) => {
     try {  
         await transaction.begin();
         if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador, authManager.PUESTOS.encargado])) throw new Error('No tienes permisos');
+        const { image } = req.files;
+        if(!image) throw new Error("Error al agregar la imagen");
+        if (!/^image/.test(image.mimetype)) throw new Error("El archivo enviado no es una imagen");
+        image.mv(__dirname+'/../upload/'+image.name);
         const request = await new db.sql.Request(transaction);
-        
         let body = req.body;
         request.input('nombre', db.sql.VarChar, body.nombre);
         request.input('precio', db.sql.Float, body.precio);
         request.input('descripcion',db.sql.VarChar,body.descripcion);
         request.input('id_subcat',db.sql.Int,body.id_subcat);
-        request.input('imagen',db.sql.VarChar,body.imagen);
+        request.input('imagen',db.sql.VarChar,image.name);
         request.input('tiempo',db.sql.VarChar,body.tiempo);
         request.input('habilitado',db.sql.Bit,1);
         if(!body.ingredientes) throw new Error("No se enviaron los ingredientes del producto");

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid animate__animated animate__fadeIn">
   <div class="row">
     <div class="col col-6 col-md-3 col-xl-2">
       <app-sidenav></app-sidenav>
@@ -11,9 +11,10 @@
           <form [formGroup]="formulario" (ngSubmit)="nuevaSubcategoria()">
             <div class="mb-3 container-subSelect">
               <label for="subcategoriaSelect" class="form-label">Subcategoría</label>
-              <select class="form-select" id="subcategoriaSelect" name="subcategoria">
+              <select (change)="subcatChange()" class="form-select" id="subcategoriaSelect" name="subcategoria" formControlName="id">
                 <option value="0" selected>Nueva subcategoría</option>
-                <option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">{{ subcategoria.nombre}}</option>
+                <option *ngFor="let subcategoria of subcategorias" [value]="subcategoria.id">{{ subcategoria.nombre + ' - ' + findCategoria(subcategoria) }}</option>
+
               </select>
             </div>
 
@@ -37,8 +38,8 @@
             <!--Ya con el formgroup y el form control name queda configurado el formulario, el ngsubmit sigue siendo necesario, lo unico sería agregar el disabled del boton-->
 
             <div class="mb-3">
-              <button type="submit" [disabled]="formulario.invalid" class="btn btn-primary me-2">Guardar</button>
-              <button type="button" class="btn btn-secondary">Habilitar/Desactivar</button>
+              <button type="submit" [disabled]="formulario.invalid || loadingSubcategorias" class="btn btn-primary me-2 mt-2">Guardar</button>
+              <button type="button" [disabled]="formulario.controls['id'].value == 0 || loadingSubcategorias" [innerHTML]="formulario.controls['habilitado'].value ? 'Desactivar' : 'Habilitar'" (click)="habdeshab()" class="btn btn-secondary mt-2">Habilitar/Desactivar</button>
             </div>
 
           </form>
