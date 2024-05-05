@@ -523,5 +523,17 @@ router.post('/prodcuto/recuperar', async (req, res) => {
     }
 });
 
+// Visualizar Productos y sus Ingredientes correspondientes
+router.get('/pi', async (req, res) => {
+    try {
+        const pool = await db.pool;
+        const request = await pool.request();
+        const result = await request.query('SELECT prod_ingr.id as "ID", p.id as "ID Producto", p.nombre as "Nombre", i.ID as "ID Ingrediente", i.nombre as "Nombre Ingrediente", prod_ingr.cantidad as "Cantidad" FROM prod_ingr join producto p on prod_ingr.id_prod = p.id join ingredientes i on prod_ingr.id_ingre = i.id;');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
 
 module.exports = router;
