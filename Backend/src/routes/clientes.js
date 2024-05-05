@@ -146,9 +146,7 @@ router.post('/reservacion/nuevo', async (req, res) => {
         }
 
         request.input('idcte', db.sql.Int, idcte);
-        console.log("Hola")
         const result = await request.query('INSERT INTO reservacion VALUES(@idcte,@id_mesa,@fecha,@password,@habilitado); SELECT SCOPE_IDENTITY() AS id;')
-        console.log("Hola2")
         if (result.recordset[0].id == 0) throw new Error("Error al insertar la reservacion");
         await transaction.commit();
         res.json({ success: true, message: "Se ha creado la reservacion correctamente", data: {id: result.recordset[0].id, password: contrasena} });
