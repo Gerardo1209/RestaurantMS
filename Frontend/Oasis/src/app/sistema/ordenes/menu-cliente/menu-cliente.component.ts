@@ -34,7 +34,7 @@ export class MenuClienteComponent {
 
   fnRecibirProducto(productoAgregar: Producto) {
     console.log(productoAgregar)
-
+    this.products.push(productoAgregar)
   }
 }
 

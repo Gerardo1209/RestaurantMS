@@ -3,6 +3,19 @@
     margin-top: 25px;
 }
 
+.shopping-cart{
+  top: 20px;
+  background-color: white;
+  border-radius: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+}
+
+.per-list{
+  max-height: 40vh;
+}
+
 .shopping-cart .item-controls {
     margin-top: 10px;
 }
@@ -34,6 +47,13 @@
 .btn-pedido:hover {
     color: black;
     background-color: white;
-    border: 3px solid #F03153;
+    border: 3px solid #EA6A12;
     border-radius: 25px;
+}
+
+.btn-pedido:active {
+  color: white;
+  background-color: #d85a06;
+  border: 3px solid #d85a06;
+  border-radius: 25px;
 }

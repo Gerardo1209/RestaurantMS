@@ -36,4 +36,10 @@ export enum APIS{
 
   //EMPLEADOS
   POST_LOGIN_EMPLEADO = '/empleados/empleado/login',
+
+  //Mesas
+  GET_MESAS = '/clientes/mesas',
+
+  //Reservacion
+  POST_CREAR_RESERVACION = '/clientes/reservacion/nuevo',
 }

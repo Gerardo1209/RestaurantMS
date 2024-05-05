@@ -27,15 +27,17 @@
   <div class="row">
     <h2 class="titulo text-center text-md-start ps-md-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
     @if(!loading){
-    <div class="col order-1 order-lg-0 col-12 col-lg-9 col-xxl-10">
+    <div class="col order-1 order-lg-0 col-12 col-lg-9"  [ngClass]="{'col-xxl-10':!pedidos}">
 
       @for(subcat of activeSubcategorias; track $index){
       @if(subcat.habilitado){
       <h2 class="titulo text-center" [id]="'cat'+subcat.id">{{subcat.nombre}}</h2>
       <div class="d-flex justify-content-center align-items-center mb-4">
         <div *ngIf="subcat.productos && subcat.productos.length > 0 else sinProductos"
-          class="row row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1"
-          id="subcategorias">
+          class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1"
+          id="subcategorias"
+          [ngClass]="{'row-cols-xxl-4':!pedidos}"
+          >
           @for (producto of subcat.productos; track $index) {
           @if(producto.habilitado){
           <div class="col col-per">
@@ -77,7 +79,7 @@
       }
       }
     </div>
-    <div class="col order-0 order-lg-1 col-12 col-lg-3 col-xxl-2 mb-4 mb-lg-0">
+    <div class="col order-0 order-lg-1 col-12 col-lg-3 mb-4 mb-lg-0" [ngClass]="{'col-xxl-2':!pedidos}">
       <div class="sticky-top text-center container-subcats">
         <h2 class="titulo text-center smooth-transition mb-4">Subcategorías</h2>
         <div class="row mt-4">

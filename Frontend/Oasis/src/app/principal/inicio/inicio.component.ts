@@ -3,11 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../../servicios/productos.service';
 import { Categoria, Producto } from '../../servicios/productos.interface';
 import { AlertasService } from '../../servicios/alertas.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss',
   providers: [
