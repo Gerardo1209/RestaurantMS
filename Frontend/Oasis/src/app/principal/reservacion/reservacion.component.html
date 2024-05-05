@@ -8,14 +8,14 @@
             <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Apellido paterno"
                 formControlName="apellidoPaterno">
             <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Apellido materno"
-                formArrayName="apellidoMaterno">
-            <input type="number" class="form-control mb-1 white" id="inputText1" placeholder="Telefono" formControlName="telefono">
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="CURP"
-                formControlName="curp">
+                formControlName="apellidoMaterno">
+            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Telefono" formControlName="telefono">
+            <!--<input type="text" class="form-control mb-1 white" id="inputText1" placeholder="CURP"
+                formControlName="curp">-->
             <input type="date" class="form-control mb-1 white" placeholder="Selecciona una fecha" id="inputText1"  formControlName="fecha">
             <label class="texto" style="color: white;" for="inputText2">Hora</label>
             <input type="time" class="form-control mb-1" id="inputText2" placeholder="HH:MM"  formControlName="hora">
-            <button type="submit" class="btn" id="btn1">Reservar</button>
+            <button type="submit" class="btn" id="btn1" [disabled]="formNuevaReservacion.invalid">Reservar</button>
         </form>
         <form class="col col-12 col-sm-6 col-md-4 text-center" [formGroup]="formVerificarReservacion" (ngSubmit)="onSubmit(2)">
             <h1>Iniciar servicio</h1>

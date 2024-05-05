@@ -19,9 +19,8 @@ export class ReservacionComponent {
     apellidoPaterno: new FormControl('', [Validators.required]),
     apellidoMaterno: new FormControl('', [Validators.required]),
     telefono: new FormControl('', [Validators.required]),
-    curp: new FormControl('', Validators.required),
-    fecha: new FormControl('', Validators.required),
-    hora: new FormControl('', Validators.required)
+    fecha: new FormControl('', [Validators.required]),
+    hora: new FormControl('', [Validators.required])
   })
   formVerificarReservacion: FormGroup = new FormGroup({
     idReservacion: new FormControl('', [Validators.email]),
@@ -42,7 +41,7 @@ export class ReservacionComponent {
       var cliente:Cliente = {
         AM: this.formNuevaReservacion.controls['apellidoMaterno'].value,
         AP: this.formNuevaReservacion.controls['apellidoPaterno'].value,
-        CURP: this.formNuevaReservacion.controls['curp'].value,
+        CURP: '',
         Email: '',
         id: 0,
         Nombre: this.formNuevaReservacion.controls['nombre'].value,
@@ -58,19 +57,21 @@ export class ReservacionComponent {
         habilitado: true,
         id: 0,
         id_cliente: 0,
-        id_mesa: 0,
+        id_mesa: 3,
         password: '',
         cliente: cliente
       }
-      /*this.clientesService.crearReservacion(reservacion).forEach(
+      console.log(reservacion)
+      this.clientesService.crearReservacion(reservacion).forEach(
         (res) => {
           if(res.success && typeof res.message == 'string'){
             this.alertasService.success(res.message);
+            console.log(res.data.id, res.data.password)
           }else{
             if(typeof res.message == 'string') this.alertasService.error(res.message)
           }
         }
-      )*/
+      )
     } else {
       console.log("verificar")
       var reservacion:Reservacion = {

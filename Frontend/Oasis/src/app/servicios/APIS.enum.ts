@@ -2,6 +2,7 @@ export const serverdirection = "http://localhost:3000"
 export interface ResponseObject<T> {
   success:boolean;
   message:T|string;
+  data:any
 }
 export enum APIS{
   // CATEGORIAS

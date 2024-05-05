@@ -111,17 +111,24 @@ router.post('/reservacion/nuevo', async (req, res) => {
         await transaction.begin();
         const request = await new db.sql.Request(transaction);
         let body = req.body;
+        const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let contrasena = '';
+        for (let i = 0; i < 5; i++) {
+            const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+            contrasena += caracteres.charAt(indiceAleatorio);
+        }
         request.input('id_mesa', db.sql.Int, body.id_mesa);
         request.input('fecha', db.sql.DateTime, body.fecha);
-        request.input('password', db.sql.VarChar, body.password);
+        request.input('password', db.sql.VarChar, await authManager.genContrasena(contrasena));
         request.input('habilitado', db.sql.Bit, 1);
-        const cliente = JSON.parse(body.cliente);
-        request.input('nombre', db.sql.VarChar, cliente.nombre);
-        request.input('ap', db.sql.VarChar, cliente.ap);
-        request.input('am', db.sql.VarChar, cliente.am);
-        request.input('telefono', db.sql.VarChar, cliente.telefono);
-        request.input('email', db.sql.VarChar, cliente.email);
-        request.input('curp', db.sql.VarChar, cliente.curp);
+        const cliente = body.cliente;
+        console.log(body);
+        request.input('nombre', db.sql.VarChar, cliente.Nombre);
+        request.input('ap', db.sql.VarChar, cliente.AP);
+        request.input('am', db.sql.VarChar, cliente.AM);
+        request.input('telefono', db.sql.VarChar, cliente.Telefono);
+        request.input('email', db.sql.VarChar, cliente.Email);
+        request.input('curp', db.sql.VarChar, cliente.CURP);
 
         let idcte
 
@@ -139,11 +146,12 @@ router.post('/reservacion/nuevo', async (req, res) => {
         }
 
         request.input('idcte', db.sql.Int, idcte);
-
+        console.log("Hola")
         const result = await request.query('INSERT INTO reservacion VALUES(@idcte,@id_mesa,@fecha,@password,@habilitado); SELECT SCOPE_IDENTITY() AS id;')
+        console.log("Hola2")
         if (result.recordset[0].id == 0) throw new Error("Error al insertar la reservacion");
         await transaction.commit();
-        res.json({ success: true, message: "Se ha creado la reservacion correctamente" });
+        res.json({ success: true, message: "Se ha creado la reservacion correctamente", data: {id: result.recordset[0].id, password: contrasena} });
     } catch (error) {
         await transaction.rollback();
         res.json({success:false, message: error.message });
