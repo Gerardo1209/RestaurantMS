@@ -109,11 +109,10 @@ router.post('/reservacion/nuevo', async (req, res) => {
     const transaction = await new db.sql.Transaction(pool);
     try {
         await transaction.begin();
-        if (!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input('id_mesa', db.sql.Int, body.id_mesa);
-        request.input('fecha', db.sql.DateTime, new Date());
+        request.input('fecha', db.sql.DateTime, body.fecha);
         request.input('password', db.sql.VarChar, body.password);
         request.input('habilitado', db.sql.Bit, 1);
         const cliente = JSON.parse(body.cliente);
