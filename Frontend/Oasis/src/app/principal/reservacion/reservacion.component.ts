@@ -14,14 +14,15 @@ export class ReservacionComponent {
   showCurp: boolean;
   formNuevaReservacion: FormGroup = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
-    correo: new FormControl('', [Validators.email]),
     apellidoPaterno: new FormControl('', [Validators.required]),
     apellidoMaterno: new FormControl('', [Validators.required]),
     telefono: new FormControl('', [Validators.required]),
-    curp: new FormControl(''),
+    curp: new FormControl('', Validators.required),
+    fecha: new FormControl('', Validators.required),
+    hora: new FormControl('', Validators.required)
   })
   formVerificarReservacion: FormGroup = new FormGroup({
-    correo: new FormControl('', [Validators.email]),
+    idReservacion: new FormControl('', [Validators.email]),
     contrasena: new FormControl('', [Validators.required]),
   })
 
