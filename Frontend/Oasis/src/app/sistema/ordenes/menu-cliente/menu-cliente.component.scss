@@ -1,0 +1,39 @@
+.container-shopping {
+    margin: 0;
+    margin-top: 25px;
+}
+
+.shopping-cart .item-controls {
+    margin-top: 10px;
+}
+
+.shopping-cart .item-controls button {
+    margin-right: 5px;
+}
+
+.shopping-cart .total {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.shopping-cart .quantity {
+    margin: 0 10px;
+}
+
+.total {
+    color: white;
+}
+
+.btn-pedido {
+    color: white;
+    background-color: #EA6A12;
+    border: 3px solid #EA6A12;
+    border-radius: 25px;
+}
+
+.btn-pedido:hover {
+    color: black;
+    background-color: white;
+    border: 3px solid #F03153;
+    border-radius: 25px;
+}
