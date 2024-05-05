@@ -1,0 +1,28 @@
+<div class="row container-shopping">
+    <div class="col-3">
+        <div class="shopping-cart">
+            <h3 class="titulo text-center">Pedido</h3>
+
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let product of products">
+                    {{ product.Nombre }}
+                    <span class="badge bg-primary float-right">${{ product.precio }}</span>
+                    <div class="item-controls">
+                        <button class="btn btn-sm btn-secondary" (click)="decrementQuantity(product)">-</button>
+                        <span class="quantity">{{ product.cantidad }}</span>
+                        <button class="btn btn-sm btn-secondary" (click)="incrementQuantity(product)">+</button>
+                        <button class="btn btn-sm btn-danger" (click)="removeProduct(product.id)">Eliminar</button>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="total texto text-center">
+                <strong>Total:</strong> $40.00
+            </div>
+            <button class=" btn btn-pedido w-100 texto">Realizar Pedido</button>
+        </div>
+    </div>
+    <div class=" col-9">
+        <app-menu (productoAgregar)="fnRecibirProducto($event)" [pedidos]="true"></app-menu>
+    </div>
+</div>
