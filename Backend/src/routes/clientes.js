@@ -17,7 +17,7 @@ router.get('/clientes', async (req, res) => {
         const result = await request.query('SELECT * FROM cliente');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -31,7 +31,7 @@ router.get('/cliente/consultar/:idCliente', async (req, res) => {
         const result = await request.query('SELECT * FROM cliente WHERE id=@id_cte;');
         res.json({success: true, message: { cliente: result.recordset[0]}});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -56,7 +56,7 @@ router.post('/cliente/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado el cliente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -83,7 +83,7 @@ router.post('/cliente/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado el Cliente correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -99,7 +99,7 @@ router.get('/reservaciones', async (req, res) => {
         const result = await request.query('SELECT * FROM reservacion');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -147,7 +147,7 @@ router.post('/reservacion/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado la reservacion correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -184,7 +184,7 @@ router.post('/reservacion/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado la Reservacion Exitoramente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -207,7 +207,7 @@ router.post('/reservacion/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de Baja la Reservacion Exitoramente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -229,7 +229,7 @@ router.post('/reservacion/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha Reactivado la Reservacion Exitoramente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -248,7 +248,7 @@ router.get('/mesas', async (req, res) => {
         const result = await request.query('SELECT * FROM mesa');
         res.json({success: true, message: result.recordset});
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 });
 
@@ -276,7 +276,7 @@ router.post('/mesa/nuevo', async (req, res) => {
         res.json({success: true, message: "Se ha creado la mesa correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -303,7 +303,7 @@ router.post('/mesa/cambio', async (req, res) => {
         res.json({success: true, message: "Se ha Actualizado la Mesa correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -322,7 +322,7 @@ router.post('/mesa/baja', async (req, res) => {
         res.json({success: true, message: "Se ha dado de Baja la Mesa correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
@@ -342,11 +342,250 @@ router.post('/mesa/recuperar', async (req, res) => {
         res.json({success: true, message: "Se ha Recuperado la Mesa correctamente"});
     } catch (error) {
         await transaction.rollback();
-        res.status(500).json({success:false, message: error.message });
+        res.json({success:false, message: error.message });
     }
 });
 
+// SERVICIO
+
+router.get('/servicios', async (req, res) => {
+    try {
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const pool = await db.pool;
+        const request = await pool.request();
+        const result = await request.query('SELECT * FROM servicio');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.post('/servicio/nuevo', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_res', db.sql.Int, body.id_res);
+        request.input('id_emp', db.sql.Int, body.id_emp);
+        request.input('he', db.sql.DateTime, new Date());
+        request.input('hs', db.sql.DateTime, new Date());
+        request.input('estado', db.sql.VarChar, body.estado);
+        const result = await request.query('INSERT INTO servicio VALUES(@id_res,@id_emp,@he, @hs, @estado); SELECT SCOPE_IDENTITY() AS id;')
+        if(result.recordset[0].id == 0) throw new Error("Error al crear el Servicio");
+        await transaction.commit();
+        res.json({success: true, message: "Se ha creado el Servicio correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+// Hay que liberar la mesa en la cual se estaba dando el servicio
+router.post('/servicio/pagar', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_serv', db.sql.Int, body.id);  
+        request.input('id_res', db.sql.Int, body.id_res);    
+        request.input('hs', db.sql.DateTime, new Date());
+        request.input('estado', db.sql.VarChar, 'Pa');
+        const result = await request.query('UPDATE servicio SET hs=@hs, estado=@estado WHERE id=@id_serv;');
+        if(result.rowsAffected[0] === 0) throw new Error("Error al finalizar el Servicio");
+
+        // Se tiene que poner como libre la mesa que se ha liberado
+        request.input('estado2', db.sql.Char, 'L')
+        const resultM = await request.query('UPDATE m SET m.estado=@estado2 FROM mesa m INNER JOIN reservacion r ON m.id = r.id_mesa WHERE r.id = @id_res;');        
+        if(resultM.rowsAffected[0] === 0) throw new Error("Error al Liberar la Mesa del Servicio");
+
+
+        await transaction.commit();
+        res.json({success: true, message: "Se ha finalizado el servicio correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+// El usuario termina pero aun no paga por el servicio
+router.post('/servicio/terminar', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_serv', db.sql.Int, body.id);  
+        request.input('id_res', db.sql.Int, body.id_res);    
+        request.input('estado', db.sql.VarChar, 'Te');
+        const result = await request.query('UPDATE servicio SET estado=@estado WHERE id=@id_serv;');
+        if(result.rowsAffected[0] === 0) throw new Error("Error al terminar el Servicio");
+        await transaction.commit();
+        res.json({success: true, message: "Se ha Terminado el servicio correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+
 // ORDEN
+
+router.get('/ordenes', async (req, res) => {
+    try {
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const pool = await db.pool;
+        const request = await pool.request();
+        const result = await request.query('SELECT * FROM orden');
+        res.json({success: true, message: result.recordset});
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+});
+
+router.post('/orden/nuevo', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_serv', db.sql.Int, body.id_serv);
+        request.input('estado', db.sql.Char, 'P');
+        request.input('hora', db.sql.DateTime, new Date());
+        request.input('flag', db.sql.Char, 'I');
+        request.input('habilitado', db.sql.Bit, 1);
+        const result = await request.query('INSERT INTO orden VALUES(@id_serv,@estado,@hora, @flag, @habilitado); SELECT SCOPE_IDENTITY() AS id;')
+        if(result.recordset[0].id == 0) throw new Error("Error al crear la Orden");
+        await transaction.commit();
+        res.json({success: true, message: "Se ha creado la Orden Exitosamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+router.post('/orden/baja', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_orden', db.sql.Int, body.id);  
+        const result = await request.query('UPDATE orden SET habilitado=0 WHERE id=@id_orden;')
+        if(result.rowsAffected[0] === 0) throw new Error("Error al dar de baja la Orden");
+
+        await transaction.commit();
+        res.json({success: true, message: "Se ha dado de Baja la Orden correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+router.post('/orden/recuperar', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_orden', db.sql.Int, body.id);  
+        const result = await request.query('UPDATE orden SET habilitado=1 WHERE id=@id_orden;')
+        if(result.rowsAffected[0] === 0) throw new Error("Error al recuperar la Orden");
+
+        await transaction.commit();
+        res.json({success: true, message: "Se ha recuperado la Orden Correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+// Mas que cambio considero su utilidad se encontrara en cambiar el estado de la orden
+router.post('/orden/cambio', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input("id_ord", db.sql.Int, body.id);
+        // Se llegaria el caso de cambiar el ID del servicio para dicha orden ?
+        request.input('id_serv', db.sql.Int, body.id_serv);
+        request.input('estado', db.sql.Char, body.estado);
+        // Cambiar la fecha de la orden ??
+        //request.input('hora', db.sql.DateTime, new Date()); 
+        const result = await request.query('UPDATE orden SET id_serv=@id_serv, estado=@estado WHERE id=@id_ord;')
+        if(result.rowsAffected[0] === 0) throw new Error("Error al Actualizar la Orden");
+        await transaction.commit();
+        res.json({success: true, message: "Se ha Actualizado la Orden Exitosamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+
+router.post('/orden/estado', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input("id_ord", db.sql.Int, body.id);
+        request.input('estado', db.sql.Char, body.estado);
+        const result = await request.query('UPDATE orden SET estado=@estado WHERE id=@id_ord;')
+        if(result.rowsAffected[0] === 0) throw new Error("Error al Cambiar Estado de la Orden");
+        await transaction.commit();
+        res.json({success: true, message: "Se ha Actualizado el Estado de la Orden Exitosamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
+
+
+router.post('/orden/terminar', async (req, res) => {
+    const pool = await db.pool;
+    const transaction = await new db.sql.Transaction(pool);
+    try {
+        await transaction.begin();
+        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        const request = await new db.sql.Request(transaction);
+        let body = req.body;
+        request.input('id_orden', db.sql.Int, body.id);  
+        const result = await request.query('UPDATE orden SET flag=T WHERE id=@id_orden;')
+        if(result.rowsAffected[0] === 0) throw new Error("Error al terminar la Orden");
+
+        await transaction.commit();
+        res.json({success: true, message: "Se ha Terminado la Orden Correctamente"});
+    } catch (error) {
+        await transaction.rollback();
+        res.json({success:false, message: error.message });
+    }
+});
+
 
 
 

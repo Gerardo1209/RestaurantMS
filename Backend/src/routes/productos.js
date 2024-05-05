@@ -105,10 +105,10 @@ router.post('/categoria/baja', async (req, res) => {
         request.input('id_cat', db.sql.VarChar, body.idCategoria);
 
         const resultP = await request.query('UPDATE p SET p.habilitado = 0 FROM producto p INNER JOIN subcategoria s ON p.id_subcat = s.id WHERE s.id_cat = @id_cat;');        
-        //if(resultP.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Productos Adyascentes");
+        if(resultP.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Productos Adyascentes");
 
         const result = await request.query('UPDATE subcategoria SET habilitado=0 WHERE id_cat=@id_cat;');
-        //if(result.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Subcategorias Adyascentes");
+        if(result.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Subcategorias Adyascentes");
 
         const resultC = await request.query('UPDATE categoria SET habilitado=0 WHERE id=@id_cat;');
         if(resultC.rowsAffected[0] === 0) throw new Error("Error al Deshabilitar Categoria");
