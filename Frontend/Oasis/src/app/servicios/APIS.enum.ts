@@ -2,6 +2,7 @@ export const serverdirection = "http://localhost:3000"
 export interface ResponseObject<T> {
   success:boolean;
   message:T|string;
+  data:any
 }
 export enum APIS{
   // CATEGORIAS
@@ -56,4 +57,9 @@ export enum APIS{
   POST_EDITAR_DET_PED_ORDEN = '/pedidos/det_ped_orden/cambio',
   
 
+  //Mesas
+  GET_MESAS = '/clientes/mesas',
+
+  //Reservacion
+  POST_CREAR_RESERVACION = '/clientes/reservacion/nuevo',
 }
