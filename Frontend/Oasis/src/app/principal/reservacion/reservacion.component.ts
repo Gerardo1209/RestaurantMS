@@ -66,7 +66,7 @@ export class ReservacionComponent {
         (res) => {
           if(res.success && typeof res.message == 'string'){
             this.alertasService.success(res.message);
-            console.log(res.data.id, res.data.password)
+            console.log(res.data.id, res.data.password) //!!Falta mostrar el id de la reservación y la contrasena
           }else{
             if(typeof res.message == 'string') this.alertasService.error(res.message)
           }
