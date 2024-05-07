@@ -8,6 +8,7 @@ import { SidenavComponent } from './sistema/sidenav/sidenav.component';
 import { SubcategoriasComponent } from './sistema/configuracion/subcategorias/subcategorias.component';
 import { ReservacionComponent } from './principal/reservacion/reservacion.component';
 import { MenuClienteComponent } from './sistema/ordenes/menu-cliente/menu-cliente.component';
+import { MenuMeserosComponent } from './sistema/ordenes/menu-meseros/menu-meseros.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
   {
     path: 'sistema/ordenes/menu-cliente',
     component: MenuClienteComponent,
+  },
+  {
+    path: 'sistema/ordenes/menu-meseros',
+    component: MenuMeserosComponent,
   },
   {
     path: '',
