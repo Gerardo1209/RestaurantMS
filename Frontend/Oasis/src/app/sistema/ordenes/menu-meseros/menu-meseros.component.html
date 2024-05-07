@@ -1,13 +1,25 @@
-<div class="container">
+<div class="container" >
     <div class="row">
         <div class="col col-12 col-sm-3">
             <div id="contenedor1">
                 <div id="contenedorEncabezado1">
-                    <h3 style="width: 100%; text-align: center;">Mesas</h3>
+                    <h3 style="width: 100%; text-align: center;">Mesas asignadas</h3>
                 </div>
                 <div id="contenedorMesas1">
                     <ul *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
-                        <li><p></p></li>
+                        <li>
+                            <div class="row">
+                                <p class="col" style="width: 80%;">Mesa {{i+1}}</p>
+                                <p class="col" style="text-align: right; width: 80%; padding: 0 2vw 0 0;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue"
+                                        class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8" />
+                                    </svg>
+
+                                </p>
+                            </div>
+                            <p style="width: 100%; text-align: center;">Estado</p>
+                        </li>
                     </ul>
                 </div>
             </div>
