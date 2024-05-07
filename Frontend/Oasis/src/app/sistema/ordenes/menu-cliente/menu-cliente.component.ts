@@ -17,24 +17,43 @@ import { Producto } from '../../../servicios/productos.interface';
 export class MenuClienteComponent {
 
   products: Producto[] = [];
+  totalAPagar: number = 0;
+
+  fnRecibirProducto(productoAgregar: Producto): void {
+    const productoExistente = this.products.find(p => p.id === productoAgregar.id);
+
+    if (productoExistente) {
+      productoExistente.cantidad += 1;
+    } else {
+      productoAgregar.cantidad = 1;
+      this.products.push(productoAgregar);
+    }
+
+    this.calcularTotal();
+    console.log(this.products);
+  }
+
 
   incrementQuantity(product: Producto): void {
     product.cantidad++;
+    this.calcularTotal();
   }
 
   decrementQuantity(product: Producto): void {
-    if (product.cantidad > 0) {
+    if (product.cantidad > 1) {
       product.cantidad--;
+    } else {
+      this.products = this.products.filter(p => p.id !== product.id);
     }
+    this.calcularTotal();
   }
 
   removeProduct(productId: number): void {
     this.products = this.products.filter(product => product.id !== productId);
+    this.calcularTotal();
   }
 
-  fnRecibirProducto(productoAgregar: Producto) {
-    console.log(productoAgregar)
-    this.products.push(productoAgregar)
+  private calcularTotal(): void {
+    this.totalAPagar = this.products.reduce((acc, product) => acc + product.precio * product.cantidad, 0);
   }
 }
-

@@ -31,6 +31,8 @@ export interface Ingrediente {
   cantidad?: string
   usr_usuario?: string;
   usr_contrasena?: string;
+
+  seleccionado: boolean;
 }
 
 export interface Producto {
