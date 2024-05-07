@@ -27,17 +27,15 @@
   <div class="row">
     <h2 class="titulo text-center text-md-start ps-md-5 smooth-transition" id="cat-sel">{{getActiveItem()}}</h2>
     @if(!loading){
-    <div class="col order-1 order-lg-0 col-12 col-lg-9"  [ngClass]="{'col-xxl-10':!pedidos}">
+    <div class="col order-1 order-lg-0 col-12 col-lg-9" [ngClass]="{'col-xxl-10':!pedidos}">
 
       @for(subcat of activeSubcategorias; track $index){
       @if(subcat.habilitado){
       <h2 class="titulo text-center" [id]="'cat'+subcat.id">{{subcat.nombre}}</h2>
       <div class="d-flex justify-content-center align-items-center mb-4">
         <div *ngIf="subcat.productos && subcat.productos.length > 0 else sinProductos"
-          class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1"
-          id="subcategorias"
-          [ngClass]="{'row-cols-xxl-4':!pedidos}"
-          >
+          class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1" id="subcategorias"
+          [ngClass]="{'row-cols-xxl-4':!pedidos}">
           @for (producto of subcat.productos; track $index) {
           @if(producto.habilitado){
           <div class="col col-per">
@@ -127,7 +125,7 @@
   <div class="modal-dialog">
     <div class="modal-content modal-content-per">
       <div class="modal-header">
-        <h1 class="texto modal-title fs-5 ms-4 mt-1" id="exampleModalLabel">{{detailProducto?.Nombre}}</h1>
+        <h1 class="texto modal-title fs-5 ms-4 mt-1" id="exampleModalLabel">{{ detailProducto?.Nombre }}</h1>
         <button type="button" style="color: white !important;" class="btn-close me-3" data-bs-dismiss="modal"
           aria-label="Close"></button>
       </div>
@@ -135,30 +133,29 @@
         <div class="row mx-3">
           <div class="col col-12 col-lg-8 border-per">
             <p class="texto" style="color: white;">
-              {{detailProducto?.Descripcion}}
+              {{ detailProducto?.Descripcion }}
             </p>
             <div class="text-center w-100">
               <img [src]="detailProducto?.imagen" class="img-fluid" style="max-height: 400px;">
             </div>
-
           </div>
           <div class="col col-12 text-center col-lg-4">
             <h4 class="titulo" style="color: white; font-weight: bold;">Ingredientes</h4>
-            <ul>
-              @for (ingrediente of detailProducto?.ingredientes; track $index) {
-              <li class="texto" style="color: white;">{{ ingrediente.nombre}} - {{ingrediente.cantidad }}</li>
-              }
+            <ul style="list-style-type: none; padding-left: 0; text-align: left;">
+              <li *ngFor="let ingrediente of detailProducto?.ingredientes" class="texto" style="color: white;">
+                <input type="checkbox" [(ngModel)]="ingrediente.seleccionado" [disabled]="!ingrediente.habilitado">
+                {{ ingrediente.nombre }} - {{ ingrediente.cantidad }}
+              </li>
             </ul>
-
           </div>
         </div>
-        <div class="row mx-3 ">
+        <div class="row mx-3">
           <div class="col">
             <h4 class="titulo" style="color: white;">Tiempo de preparación</h4>
-            <p class="texto" style="color: white;">{{detailProducto?.tiempo}}</p>
+            <p class="texto" style="color: white;">{{ detailProducto?.tiempo }}</p>
           </div>
           <div class="col ">
-            <h2 class="titulo" style="text-align: right;">{{detailProducto?.precio|currency}}</h2>
+            <h2 class="titulo" style="text-align: right;">{{ detailProducto?.precio | currency }}</h2>
           </div>
         </div>
       </div>

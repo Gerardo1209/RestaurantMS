@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ProductosService } from '../../servicios/productos.service';
 import { Categoria, Producto, Subcategoria } from '../../servicios/productos.interface';
 import { AlertasService } from '../../servicios/alertas.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
@@ -94,14 +98,24 @@ export class MenuComponent implements OnInit {
     var active = subcat.productos?.find((a) => { return a.active == true });
     if (active) active.active = false;
     producto.active = true;
-    this.productosService.getProducto(producto.id).forEach((res) => {
-      if (res.success && typeof res.message == 'object') {
-        this.detailProducto = res.message;
-        console.log(this.detailProducto)
+    this.productosService.getProducto(producto.id).subscribe(res => {
+      if (res.success && res.message) {
+        const detalles: Producto = res.message as Producto;
+        detalles.ingredientes = detalles.ingredientes || [];
+        detalles.ingredientes = detalles.ingredientes.map(ing => ({
+          ...ing,
+          seleccionado: ing.habilitado
+        }));
+
+        this.detailProducto = detalles;
       } else {
-        if (typeof res.message == 'string') this.alertasService.error(res.message)
+        this.alertasService.error('Error: Datos del producto incompletos o incorrectos.');
       }
-    })
+    }, error => {
+      this.alertasService.error('Error al obtener detalles del producto: ' + error.message);
+    });
+
+
   }
 
   scrollToCat(id: string) {
