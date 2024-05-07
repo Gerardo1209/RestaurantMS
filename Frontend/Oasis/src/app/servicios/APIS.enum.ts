@@ -38,6 +38,24 @@ export enum APIS{
   //EMPLEADOS
   POST_LOGIN_EMPLEADO = '/empleados/empleado/login',
 
+   //Orden
+   GET_ORDENES = '/pedidos/ordenes',
+   GET_ORDEN = '/pedidos/orden/:idOrden',
+   POST_CREAR_ORDEN = '/pedidos/orden/nuevo',
+   POST_EDITAR_ORDEN = '/pedidos/orden/cambio',
+
+   //Detalle orden
+   GET_DETALLE_ORDENES = '/pedidos/detalle_ordenes',
+   GET_DETALLE_ORDEN = '/pedidos/detalle_orden/:idDetalleOrden',
+   POST_CREAR_DETALLE_ORDEN = '/pedidos/detalle_orden/nuevo',
+   POST_EDITAR_DETALLE_ORDEN = '/pedidos/detalle_orden/cambio',
+
+   //Detalle pedido orden
+   GET_DET_PED_ORDENES = '/pedidos/det_ped_ordenes',
+   GET_DET_PED_ORDEN = '/pedidos/det_ped_orden/:idDetPedOrden',
+   POST_CREAR_DET_PED_ORDEN = '/pedidos/det_ped_orden/nuevo',
+   POST_EDITAR_DET_PED_ORDEN = '/pedidos/det_ped_orden/cambio',
+
   //Mesas
   GET_MESAS = '/clientes/mesas',
 
