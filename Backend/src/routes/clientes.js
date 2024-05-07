@@ -448,7 +448,7 @@ router.post('/servicio/terminar', async (req, res) => {
 
 router.get('/ordenes', async (req, res) => {
     try {
-        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        if(!await authManager.revReservacion(req.body.res_contrasena, req.body.res_id)) throw new Error('No tienes permisos');
         const pool = await db.pool;
         const request = await pool.request();
         const result = await request.query('SELECT * FROM orden');
@@ -463,7 +463,7 @@ router.post('/orden/nuevo', async (req, res) => {
     const transaction = await new db.sql.Transaction(pool);
     try {
         await transaction.begin();
-        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        if(!await authManager.revReservacion(req.body.res_contrasena, req.body.res_id)) throw new Error('No tienes permisos');
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input('id_serv', db.sql.Int, body.id_serv);

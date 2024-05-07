@@ -30,6 +30,21 @@ const revContrasena = async (contrasena, usuario) => {
     return band;
 }
 
+const revReservacion = async (contrasena, idReservacion) => {
+    var band = false;
+    try{
+        const pool = await sql.pool;
+        const request = await pool.request();
+        request.input('id',sql.sql.Int,idReservacion)
+        const result = await request.query('SELECT password FROM reservacion WHERE id=@id;');
+        hashedContasena = result.recordset[0].password;
+        if(hashedContasena == contrasena) band = true;
+    }catch(error){
+        band = false;
+    }
+    return band;
+}
+
 const revContrasenaReservacion = async (contrasena, idReservacion) => {
     var band = false;
     try{
@@ -91,5 +106,6 @@ module.exports = {
     revContrasena,
     revContrasenaReservacion,
     revPermisos,
+    revReservacion,
     PUESTOS
 }

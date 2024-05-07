@@ -31,24 +31,24 @@ export class ClientesService {
   }
 
   crearOrden(orden:Orden):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    orden.usr_usuario = usuario.usuario;
-    orden.usr_contrasena = usuario.contrasena;
+    orden.res_id = reservacion.id;
+    orden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_CREAR_ORDEN, orden);
   }
 
   editarOrden(orden:Orden):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    orden.usr_usuario = usuario.usuario;
-    orden.usr_contrasena = usuario.contrasena;
+    orden.res_id = reservacion.id;
+    orden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_EDITAR_ORDEN, orden);
   }
 
@@ -63,24 +63,24 @@ export class ClientesService {
   }
 
   crearDetalleOrden(detalleOrden:Detalle_Orden):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    detalleOrden.usr_usuario = usuario.usuario;
-    detalleOrden.usr_contrasena = usuario.contrasena;
+    detalleOrden.res_id = reservacion.id;
+    detalleOrden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_CREAR_DETALLE_ORDEN, detalleOrden);
   }
 
   editarDetalleOrden(detalleOrden:Detalle_Orden):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    detalleOrden.usr_usuario = usuario.usuario;
-    detalleOrden.usr_contrasena = usuario.contrasena;
+    detalleOrden.res_id = reservacion.id;
+    detalleOrden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_EDITAR_DETALLE_ORDEN, detalleOrden);
   }
 
@@ -95,24 +95,24 @@ export class ClientesService {
   }
 
   crearDetPedOrden(detPedOrden:Det_Ped_Ord):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    detPedOrden.usr_usuario = usuario.usuario;
-    detPedOrden.usr_contrasena = usuario.contrasena;
+    detPedOrden.res_id = reservacion.id;
+    detPedOrden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_CREAR_DET_PED_ORDEN, detPedOrden);
   }
 
   editarDetPedOrden(detPedOrden:Det_Ped_Ord):Observable<ResponseObject<string>>{
-    var usuario_json = sessionStorage.getItem('usuario');
-    var usuario;
+    var usuario_json = sessionStorage.getItem('servicio');
+    var reservacion;
     if(usuario_json){
-      usuario = JSON.parse(usuario_json);
+      reservacion = JSON.parse(usuario_json).reservacion;
     }
-    detPedOrden.usr_usuario = usuario.usuario;
-    detPedOrden.usr_contrasena = usuario.contrasena;
+    detPedOrden.res_id = reservacion.id;
+    detPedOrden.res_contrasena = reservacion.password;
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_EDITAR_DET_PED_ORDEN, detPedOrden);
   }
 

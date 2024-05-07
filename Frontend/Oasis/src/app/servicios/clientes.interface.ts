@@ -47,6 +47,8 @@ export interface Orden {
   detalle_orden?: Detalle_Orden[];
   usr_usuario?: string;
   usr_contrasena?: string;
+  res_id?:string;
+  res_contrasena ?:string
 }
 
 export interface Detalle_Orden {
@@ -59,6 +61,8 @@ export interface Detalle_Orden {
   det_ped_ord?: Det_Ped_Ord[];
   usr_usuario?: string;
   usr_contrasena?: string;
+  res_id?:string;
+  res_contrasena ?:string
 }
 
 export interface Det_Ped_Ord {
@@ -68,6 +72,8 @@ export interface Det_Ped_Ord {
   cantidad: number;
   usr_usuario?: string;
   usr_contrasena?: string;
+  res_id?:string;
+  res_contrasena ?:string
 }
 
 export interface Servicio{
@@ -81,4 +87,6 @@ export interface Servicio{
   usr_contrasena?: string;
   res_id?:number
   res_contrasena?:string
+  res_id?:string;
+  res_contrasena ?:string
 }
