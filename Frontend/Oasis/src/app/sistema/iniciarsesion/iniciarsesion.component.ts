@@ -40,7 +40,7 @@ export class IniciarsesionComponent {
         sessionStorage.setItem('usuario', JSON.stringify(res.message))
         this.loading = false;
         this.loginEvent.emit();
-        this.router.navigate(['sistema/subcategorias']);
+        this.router.navigate(['/sistema/subcategorias']);
       }else{
         this.loading = false;
         if(typeof res.message == 'string') this.alertasService.error(res.message)

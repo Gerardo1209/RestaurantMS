@@ -4,6 +4,7 @@ import { InicioComponent } from './principal/inicio/inicio.component';
 import { HeaderComponent } from './principal/header/header.component';
 import { FooterComponent } from './principal/footer/footer.component';
 import { IniciarsesionComponent } from './sistema/iniciarsesion/iniciarsesion.component';
+import { ReservacionComponent } from './principal/reservacion/reservacion.component';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,11 @@ export class AppComponent implements OnInit{
       componentRef.loginEvent.subscribe(()=>{
         this.iniciarSesion.emit();
       });
+    }
+    if(componentRef instanceof ReservacionComponent){
+      componentRef.loginEvent.subscribe(() => {
+        this.iniciarSesion.emit();
+      })
     }
   }
 

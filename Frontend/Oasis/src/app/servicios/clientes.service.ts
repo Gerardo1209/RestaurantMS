@@ -116,5 +116,10 @@ export class ClientesService {
     return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_EDITAR_DET_PED_ORDEN, detPedOrden);
   }
 
+  //Servicios
+  crearServicio(servicio:Servicio):Observable<ResponseObject<string>>{
+    return <Observable<ResponseObject<string>>> this.httpClient.post(serverdirection + APIS.POST_CREAR_SERVICIO, servicio)
+  }
+
 
 }

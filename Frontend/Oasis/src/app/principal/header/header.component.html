@@ -16,8 +16,12 @@
             </div>
             <div class="col col-10 mb-2 mb-md-0 col-md-4 p-0 m-0">
               <div class="d-flex justify-content-center justify-content-md-end">
-                <button type="button" class="btn btn-reservar ms-3 me-3" routerLink="reservacion">Reservar</button>
-                <button type="button" class="btn btn-reservar me-3" [routerLink]="'iniciarsesion'" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
+                @if(usuario == undefined){
+                  <button type="button" class="btn btn-reservar ms-3 me-3" [disabled]="servicio != undefined" routerLink="reservacion" [innerHTML]="servicio ? ('\<i class=\'fa fa-utensils\'>\</i> ' + servicio.Nombre + ' ' + servicio.AP + ' ' + servicio.AM) : 'Reservar'">Reservar</button>
+                }
+                @if(servicio == undefined){
+                  <button type="button" class="btn btn-reservar me-3" [routerLink]="'iniciarsesion'" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
+                }
               </div>
             </div>
         </div>
@@ -32,6 +36,9 @@
             <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="FAQ"><div>FAQ</div></a>
             @if(usuario != undefined){
               <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/subcategorias"><div>Sistema</div></a>
+            }
+            @if(servicio != undefined){
+              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/ordenes/menu-cliente"><div>Ordenar</div></a>
             }
         </div>
 

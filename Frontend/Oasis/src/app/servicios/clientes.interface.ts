@@ -79,4 +79,6 @@ export interface Servicio{
   Estado:string;
   usr_usuario?: string;
   usr_contrasena?: string;
+  res_id?:number
+  res_contrasena?:string
 }

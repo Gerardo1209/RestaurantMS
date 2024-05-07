@@ -130,10 +130,10 @@ router.post('/reservacion/nuevo', async (req, res) => {
         request.input('curp', db.sql.VarChar, cliente.CURP);
 
         let idcte
-
+        console.log(cliente)
         // Verificar la existencia o NO del CLIENTE
         const resultcte = await request.query('Select * From cliente WHERE curp=@curp;')
-        if (resultcte.recordset.length > 0) {
+        if (resultcte.recordset.length > 0 && cliente.CURP.length>0) {
             //Si el cliente existe, se extrae el ID
             idcte = resultcte.recordset[0].id;
         } else {
@@ -141,9 +141,7 @@ router.post('/reservacion/nuevo', async (req, res) => {
             const resultcte2 = await request.query('INSERT INTO cliente VALUES(@nombre,@ap,@am,@telefono,@email,@curp); SELECT SCOPE_IDENTITY() AS id;')
             if (resultcte2.recordset[0].id == 0) throw new Error("Error al insertar el cliente en la Reservacion");
             idcte = resultcte2.recordset[0].id
-            console.log("ID del cliente creado para la reservacion: ", idcte);
         }
-
         request.input('idcte', db.sql.Int, idcte);
         const result = await request.query('INSERT INTO reservacion VALUES(@idcte,@id_mesa,@fecha,@password,@habilitado); SELECT SCOPE_IDENTITY() AS id;')
         if (result.recordset[0].id == 0) throw new Error("Error al insertar la reservacion");
@@ -369,7 +367,7 @@ router.post('/servicio/nuevo', async (req, res) => {
     const transaction = await new db.sql.Transaction(pool);
     try {
         await transaction.begin();
-        if(!await authManager.revPermisos(req.body.usr_contrasena, req.body.usr_usuario, [authManager.PUESTOS.administrador])) throw new Error('No tienes permisos');
+        if(!await authManager.revContrasenaReservacion(req.body.res_contrasena, req.body.res_id, [authManager.PUESTOS.administrador])) throw new Error('No se ha podido iniciar el servicio, las credenciales son incorrectas');
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input('id_res', db.sql.Int, body.id_res);
@@ -379,8 +377,12 @@ router.post('/servicio/nuevo', async (req, res) => {
         request.input('estado', db.sql.VarChar, body.estado);
         const result = await request.query('INSERT INTO servicio VALUES(@id_res,@id_emp,@he, @hs, @estado); SELECT SCOPE_IDENTITY() AS id;')
         if(result.recordset[0].id == 0) throw new Error("Error al crear el Servicio");
+        const cliente = await request.query('SELECT * FROM cliente WHERE id=(SELECT id_cliente FROM reservacion WHERE id=@id_res)');
+        if(!cliente.recordset[0]) throw new Error("Error al obtener el cliente asociado");
+        const reservacion = await request.query('SELECT * FROM reservacion WHERE id=@id_res');
+        if(!reservacion.recordset[0]) throw new Error("Error al obtener el cliente asociado");
         await transaction.commit();
-        res.json({success: true, message: "Se ha creado el Servicio correctamente"});
+        res.json({success: true, message: "Se ha creado el Servicio correctamente", data:{ id: result.recordset[0].id, cliente: cliente.recordset[0], reservacion: reservacion.recordset[0]}});
     } catch (error) {
         await transaction.rollback();
         res.json({success:false, message: error.message });
@@ -531,12 +533,10 @@ router.post('/orden/cambio', async (req, res) => {
         const request = await new db.sql.Request(transaction);
         let body = req.body;
         request.input("id_ord", db.sql.Int, body.id);
-        // Se llegaria el caso de cambiar el ID del servicio para dicha orden ?
-        request.input('id_serv', db.sql.Int, body.id_serv);
         request.input('estado', db.sql.Char, body.estado);
         // Cambiar la fecha de la orden ??
         //request.input('hora', db.sql.DateTime, new Date()); 
-        const result = await request.query('UPDATE orden SET id_serv=@id_serv, estado=@estado WHERE id=@id_ord;')
+        const result = await request.query('UPDATE orden SET estado=@estado WHERE id=@id_ord;')
         if(result.rowsAffected[0] === 0) throw new Error("Error al Actualizar la Orden");
         await transaction.commit();
         res.json({success: true, message: "Se ha Actualizado la Orden Exitosamente"});

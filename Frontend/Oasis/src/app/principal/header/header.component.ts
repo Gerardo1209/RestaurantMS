@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AlertasService } from '../../servicios/alertas.service';
 import { Empleado } from '../../servicios/empleados.interface';
+import { Cliente } from '../../servicios/clientes.interface';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ export class HeaderComponent {
   private eventSubscription!:Subscription;
   @Input() evento!:Observable<any>;
   usuario:Empleado|undefined;
+  servicio:Cliente|undefined;
 
   constructor(
     private router:Router,
@@ -32,8 +34,21 @@ export class HeaderComponent {
   }
 
   async obtenerSesion(){
-    this.usuario = JSON.parse(sessionStorage.getItem('usuario')!);
-    console.log(this.usuario);
+    if(sessionStorage.getItem('usuario')){
+      this.usuario = JSON.parse(sessionStorage.getItem('usuario')!)
+    }else if(sessionStorage.getItem('servicio')){
+      this.servicio =  <Cliente>JSON.parse(sessionStorage.getItem('servicio')!).cliente;
+    }
+
+  }
+
+  cerrarServicio(){
+    if(this.servicio != undefined){
+      sessionStorage.removeItem('servicio');
+      this.alertasService.success('Servicio finalizado');
+      this.servicio = undefined;
+      this.router.navigate(['/']);
+    }
   }
 
   cerrarSesion(){

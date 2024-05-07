@@ -42,6 +42,9 @@ export class AlertasService {
     });
   }
 
+  public modal(titulo:string, mensaje:string){
+    Swal.fire(titulo, mensaje, 'info');
+  }
 
 
 }
