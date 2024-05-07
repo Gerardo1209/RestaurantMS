@@ -87,4 +87,6 @@ export interface Servicio{
   usr_contrasena?: string;
   res_id?:number
   res_contrasena?:string
+  res_id?:string;
+  res_contrasena ?:string
 }
