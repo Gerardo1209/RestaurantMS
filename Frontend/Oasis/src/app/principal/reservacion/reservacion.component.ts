@@ -14,13 +14,15 @@ import { AlertasService } from '../../servicios/alertas.service';
 })
 export class ReservacionComponent {
 
+  showCurp:boolean = false;
   formNuevaReservacion: FormGroup = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
     apellidoPaterno: new FormControl('', [Validators.required]),
     apellidoMaterno: new FormControl('', [Validators.required]),
     telefono: new FormControl('', [Validators.required]),
     fecha: new FormControl('', [Validators.required]),
-    hora: new FormControl('', [Validators.required])
+    hora: new FormControl('', [Validators.required]),
+    curp: new FormControl('')
   })
   formVerificarReservacion: FormGroup = new FormGroup({
     idReservacion: new FormControl('', [Validators.email]),
@@ -41,7 +43,7 @@ export class ReservacionComponent {
       var cliente:Cliente = {
         AM: this.formNuevaReservacion.controls['apellidoMaterno'].value,
         AP: this.formNuevaReservacion.controls['apellidoPaterno'].value,
-        CURP: '',
+        CURP: this.formNuevaReservacion.controls['curp'].value,
         Email: '',
         id: 0,
         Nombre: this.formNuevaReservacion.controls['nombre'].value,

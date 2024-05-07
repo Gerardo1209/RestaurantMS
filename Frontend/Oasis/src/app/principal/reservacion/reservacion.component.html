@@ -4,26 +4,37 @@
             <h1>
                 Reserva con nosotros
             </h1>
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Nombre" formControlName="nombre">
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Apellido paterno"
+            <input type="text" class="form-control mb-2 white" id="inputText1" placeholder="Nombre" formControlName="nombre">
+            <input type="text" class="form-control mb-2 white" id="inputText1" placeholder="Apellido paterno"
                 formControlName="apellidoPaterno">
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Apellido materno"
+            <input type="text" class="form-control mb-2 white" id="inputText1" placeholder="Apellido materno"
                 formControlName="apellidoMaterno">
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Telefono" formControlName="telefono">
+            <input type="text" class="form-control mb-2 white" id="inputText1" placeholder="Telefono" formControlName="telefono">
             <!--<input type="text" class="form-control mb-1 white" id="inputText1" placeholder="CURP"
                 formControlName="curp">-->
-            <input type="date" class="form-control mb-1 white" placeholder="Selecciona una fecha" id="inputText1"  formControlName="fecha">
+            <div class="form-check mb-2 text-start">
+              <div class="mx-auto">
+                <input class="form-check-input" type="checkbox" (change)="showCurp=!showCurp" id="invalidCheck">
+                <label class="form-check-label" style="color: white;" for="invalidCheck">
+                    ¿Quieres que te recordemos?
+                </label>
+              </div>
+
+          </div>
+            <input type="text" class="form-control mb-2" id="inputText1" placeholder="CURP" *ngIf="showCurp"
+              formControlName="curp">
+            <input type="date" class="form-control mb-2 white" placeholder="Selecciona una fecha" id="inputText1"  formControlName="fecha">
             <label class="texto" style="color: white;" for="inputText2">Hora</label>
-            <input type="time" class="form-control mb-1" id="inputText2" placeholder="HH:MM"  formControlName="hora">
+            <input type="time" class="form-control mb-2" id="inputText2" placeholder="HH:MM"  formControlName="hora">
             <button type="submit" class="btn" id="btn1" [disabled]="formNuevaReservacion.invalid">Reservar</button>
         </form>
         <form class="col col-12 col-sm-6 col-md-4 text-center" [formGroup]="formVerificarReservacion" (ngSubmit)="onSubmit(2)">
             <h1>Iniciar servicio</h1>
-            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Numero de idReservacion"
+            <input type="text" class="form-control mb-1 white" id="inputText1" placeholder="Numero de la reservacion"
                 formControlName="idReservacion">
-            <input type="password" class="form-control mb-1 white" id="inputText1" placeholder="Contrasena"
+            <input type="password" class="form-control mb-1 white" id="inputText1" placeholder="Contraseña"
                 formControlName="contrasena">
-            <button type="submit" class="btn" id="btn2">Iniciar</button>
+            <button type="submit" [disabled]="formVerificarReservacion.invalid" class="btn" id="btn2">Iniciar</button>
         </form>
         <div class="col-md-4 d-none d-sm-block" id="img1" style="background-position: -10% 10%;">
         </div>

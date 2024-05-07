@@ -24,6 +24,10 @@ h1 {
 
 }
 
+#inputText1::placeholder{
+  color: rgba(255, 255, 255, 0.925);
+}
+
 #inputText2 {
     background-color: #eb8500;
     color: white;
@@ -32,6 +36,10 @@ h1 {
     width: 90%;
     border-radius: 20px;
     text-align: center;
+}
+
+#inputText2::placeholder{
+  color: rgba(255, 255, 255, 0.925);
 }
 
 #btn1 {
