@@ -2,7 +2,7 @@
     <div class="container-header">
         <div class="row align-items-center justify-content-center section-1 inner-row">
             <div class="col col-3 col-sm-2 col-md-4">
-              <img  id="logo" src="assets/png/logo.png" alt="">
+              <img routerLink="/inicio" style="cursor: pointer;" id="logo" src="assets/png/logo.png" alt="">
             </div>
             <div class="col col-9  col-sm-10 pe-4 pe-md-0 col-md-4">
               <div class="search w-100">
@@ -17,28 +17,30 @@
             <div class="col col-10 mb-2 mb-md-0 col-md-4 p-0 m-0">
               <div class="d-flex justify-content-center justify-content-md-end">
                 @if(usuario == undefined){
-                  <button type="button" class="btn btn-reservar ms-3 me-3" [disabled]="servicio != undefined" routerLink="reservacion" [innerHTML]="servicio ? ('\<i class=\'fa fa-utensils\'>\</i> ' + servicio.Nombre + ' ' + servicio.AP + ' ' + servicio.AM) : 'Reservar'">Reservar</button>
+                  <button type="button" class="btn btn-reservar ms-3 me-3" [disabled]="servicio != undefined" routerLink="/reservacion" [innerHTML]="servicio ? ('\<i class=\'fa fa-utensils\'>\</i> ' + servicio.Nombre + ' ' + servicio.AP + ' ' + servicio.AM) : 'Reservar'">Reservar</button>
                 }
-                @if(servicio == undefined){
-                  <button type="button" class="btn btn-reservar me-3" [routerLink]="'iniciarsesion'" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
+                @if(servicio == undefined && usuario == undefined){
+                  <button type="button" class="btn btn-reservar me-3" routerLink="/iniciarsesion">Ingresar</button>
+                }@else if(servicio == undefined){
+                  <button type="button" class="btn btn-reservar me-3" (click)="cerrarSesion()" [innerHTML]="usuario ? (usuario.nombre + ' ' + usuario.AP + '  \<i class=\'fa fa-right-from-bracket\'>\</i>') : 'Ingresar'">Ingresar</button>
                 }
               </div>
             </div>
         </div>
 
         <div class="section-2">
-            <a class="link texto ms-1" routerLinkActive="selected" routerLink="inicio"
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="/inicio"
                 ><div>Inicio</div></a>
-            <a class="link texto ms-1" routerLinkActive="selected" routerLink="menu"
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="/menu"
                 ><div>Menú</div></a>
-            <a class="link texto ms-1" routerLinkActive="selected" routerLink="ubicacion"
+            <a class="link texto ms-1" routerLinkActive="selected" routerLink="/ubicacion"
                 ><div>Ubicación</div></a>
-            <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="FAQ"><div>FAQ</div></a>
+            <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="/FAQ"><div>FAQ</div></a>
             @if(usuario != undefined){
-              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/subcategorias"><div>Sistema</div></a>
+              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="/sistema/subcategorias"><div>Sistema</div></a>
             }
             @if(servicio != undefined){
-              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="sistema/ordenes/menu-cliente"><div>Ordenar</div></a>
+              <a class="link texto ms-1 me-1" routerLinkActive="selected" routerLink="/sistema/ordenes/menu-cliente"><div>Ordenar</div></a>
             }
         </div>
 

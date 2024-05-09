@@ -17,6 +17,7 @@ export class ReservacionComponent {
 
   loginEvent = new EventEmitter();
   showCurp:boolean = false;
+
   formNuevaReservacion: FormGroup = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
     apellidoPaterno: new FormControl('', [Validators.required]),
@@ -26,6 +27,7 @@ export class ReservacionComponent {
     hora: new FormControl('', [Validators.required]),
     curp: new FormControl('')
   })
+
   formVerificarReservacion: FormGroup = new FormGroup({
     idReservacion: new FormControl('', [Validators.required]),
     contrasena: new FormControl('', [Validators.required]),

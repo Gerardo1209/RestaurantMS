@@ -53,9 +53,8 @@
                       {{producto.precio|currency}}</p>
                   </div>
                   <div *ngIf="pedidos" class="col col-6">
-                    <button *ngIf="pedidos" class="btn btn-cat d-inline smooth-transition"
-                      (click)="productoAgregar.emit(producto)" [ngClass]="{'active-btn': producto.active}"><i
-                        class="fa fa-plus"></i></button>
+                    <button *ngIf="pedidos" [disabled]="sendingProd" class="btn btn-cat d-inline smooth-transition"
+                      (click)="enviarProducto(producto)" [ngClass]="{'active-btn': producto.active}"><i class="fa fa-plus"></i></button>
                   </div>
                   <div class="col" [ngClass]="{'col-6': pedidos}">
                     <button class="btn btn-cat d-inline smooth-transition" data-bs-toggle="modal"
@@ -156,7 +155,11 @@
             <h4 class="titulo" style="color: white;">Tiempo de preparación</h4>
             <p class="texto" style="color: white;">{{ detailProducto?.tiempo }}</p>
           </div>
-          <div class="col ">
+          <div class="col text-end">
+            @if(pedidos && detailProducto){
+              <button *ngIf="pedidos" class="btn btn-success d-inline smooth-transition"
+              (click)="enviarProducto(detailProducto!)"><i class="fa fa-plus"></i> &nbsp; Agregar</button>
+            }
             <h2 class="titulo" style="text-align: right;">{{ detailProducto?.precio | currency }}</h2>
           </div>
         </div>

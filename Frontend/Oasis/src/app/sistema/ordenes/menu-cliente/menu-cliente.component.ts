@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuComponent } from '../../../principal/menu/menu.component';
 import { CommonModule } from '@angular/common';
 import { Producto } from '../../../servicios/productos.interface';
 import { ClientesService } from '../../../servicios/clientes.service';
 import { Orden } from '../../../servicios/clientes.interface';
 import { AlertasService } from '../../../servicios/alertas.service';
+import * as bootstrap from 'bootstrap';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-menu-cliente',
@@ -17,14 +19,17 @@ import { AlertasService } from '../../../servicios/alertas.service';
   styleUrl: './menu-cliente.component.scss'
 })
 
-export class MenuClienteComponent {
+export class MenuClienteComponent implements OnInit{
 
   products: Producto[] = [];
   totalAPagar: number = 0;
 
   fnRecibirProducto(productoAgregar: Producto): void {
-    const productoExistente = this.products.find(p => p.id === productoAgregar.id);
-
+    const productoExistente = this.products.find(p => {
+      if(p.id !== productoAgregar.id) return false;
+      if(p.listaIngredientesTexto != productoAgregar.listaIngredientesTexto) return false;
+      return true;
+    });
     if (productoExistente) {
       productoExistente.cantidad += 1;
     } else {
@@ -33,8 +38,9 @@ export class MenuClienteComponent {
     }
 
     this.calcularTotal();
-    console.log(this.products);
   }
+
+
 
 
   constructor(private clientesService:ClientesService,
@@ -57,6 +63,9 @@ export class MenuClienteComponent {
       }
     })*/
   }
+  ngOnInit(): void {
+
+  }
 
   incrementQuantity(product: Producto): void {
     product.cantidad++;
@@ -72,8 +81,12 @@ export class MenuClienteComponent {
     this.calcularTotal();
   }
 
-  removeProduct(productId: number): void {
-    this.products = this.products.filter(product => product.id !== productId);
+  removeProduct(productId: Producto): void {
+    this.products = this.products.filter(product => {
+      if(product.id !== productId.id) return true;
+      if(product.listaIngredientesTexto != productId.listaIngredientesTexto) return true;
+      return false;
+    });
     this.calcularTotal();
   }
 

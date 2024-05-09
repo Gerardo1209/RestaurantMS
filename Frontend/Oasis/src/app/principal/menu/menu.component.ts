@@ -94,6 +94,47 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  sendingProd:boolean = false;
+  idSendingProd:number = 0;
+  enviarProducto(producto:Producto){
+    this.sendingProd = true;
+    if(producto.ingredientes){
+      producto.listaIngredientesTexto = this.getIngredients(producto);
+      this.productoAgregar.emit(JSON.parse(JSON.stringify(producto)));
+      this.sendingProd = false;
+    }else{
+      this.productosService.getProducto(producto.id).subscribe(res => {
+        if (res.success && res.message) {
+          var detalles: Producto = res.message as Producto;
+          detalles.ingredientes = detalles.ingredientes || [];
+          detalles.ingredientes = detalles.ingredientes.map(ing => ({
+            ...ing,
+            seleccionado: ing.habilitado
+          }));
+          detalles.listaIngredientesTexto = this.getIngredients(detalles);
+          this.productoAgregar.emit(JSON.parse(JSON.stringify(detalles)));
+          this.sendingProd = false;
+        } else {
+          this.alertasService.error('Error: Datos del producto incompletos o incorrectos.');
+          this.sendingProd = false;
+        }
+      })
+    }
+  }
+
+  getIngredients(product:Producto):string{
+    var lista:string = "";
+    console.log(product)
+    if(product.ingredientes){
+      for (let i = 0; i < product.ingredientes.length; i++) {
+        const ingrediente = product.ingredientes[i];
+        if(ingrediente.seleccionado) lista += '-' + ingrediente.nombre + '\n'
+      }
+    }
+    console.log(lista)
+    return lista;
+  }
+
   showProducto(producto: Producto, subcat: Subcategoria) {
     var active = subcat.productos?.find((a) => { return a.active == true });
     if (active) active.active = false;

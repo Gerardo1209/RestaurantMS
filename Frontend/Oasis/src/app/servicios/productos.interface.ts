@@ -51,4 +51,5 @@ export interface Producto {
   //Variables locales
   active: boolean
   cantidad: number
+  listaIngredientesTexto?:string
 }
