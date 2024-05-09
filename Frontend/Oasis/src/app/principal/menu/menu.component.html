@@ -143,7 +143,9 @@
             <h4 class="titulo" style="color: white; font-weight: bold;">Ingredientes</h4>
             <ul style="list-style-type: none; padding-left: 0; text-align: left;">
               <li *ngFor="let ingrediente of detailProducto?.ingredientes" class="texto" style="color: white;">
-                <input type="checkbox" [(ngModel)]="ingrediente.seleccionado" [disabled]="!ingrediente.habilitado">
+                @if(pedidos){
+                  <input type="checkbox" [(ngModel)]="ingrediente.seleccionado" [disabled]="!ingrediente.habilitado">
+                }
                 {{ ingrediente.nombre }} - {{ ingrediente.cantidad }}
               </li>
             </ul>
